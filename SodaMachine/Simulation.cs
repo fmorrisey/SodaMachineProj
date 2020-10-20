@@ -21,14 +21,10 @@ namespace SodaMachine
         {
             sodaMachine = new SodaMachine(); // SodaMachine Object exists here.
             customer = new Customer(); // Customer object, with it's wallet, coins, card, and backpack exists here.
+            sodaMachine.IsPowerOn(true);
         }
         // Member Methods
-        public void IsPowerOn(bool isPowerOn)
-        {
-            if (isPowerOn == true) { Console.WriteLine("The Soda Machine is ON"); Thread.Sleep(1000); }
-            else { Console.WriteLine("The Soda Machine is OFF"); Thread.Sleep(1000); }
-            //return isPowerOn;
-        }
+        
 
     }
 }

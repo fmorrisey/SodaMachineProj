@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SodaMachine
@@ -22,5 +23,11 @@ namespace SodaMachine
         }
 
         // Member Methods
+        public void IsPowerOn(bool isPowerOn)
+        {
+            if (isPowerOn == true) { Console.WriteLine("The Soda Machine is ON"); Thread.Sleep(1000); }
+            else { Console.WriteLine("The Soda Machine is OFF"); Thread.Sleep(1000); }
+            //return isPowerOn;
+        }
     }
 }
