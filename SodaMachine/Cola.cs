@@ -14,7 +14,7 @@ namespace SodaMachine
         public Cola()
         {
             this.Name = "Cola";
-            this.Cost = 0.35d; // cents per can +Public
+            //this.Cost = 0.35d; // cents per can +Public
             this.cost = 0.35d; // cents per can #Protected
         }
 

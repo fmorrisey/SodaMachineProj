@@ -20,5 +20,11 @@ namespace SodaMachine
         }
 
         // Member Methods
+
+        public void AddSodaToBackPack(Can can)
+        {
+            cans.Add(can);
+        }
+
     }
 }

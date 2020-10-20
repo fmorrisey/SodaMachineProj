@@ -13,7 +13,7 @@ namespace SodaMachine
     {
         // Member Variables
         protected double cost;
-        public double Cost;
+        public double Cost { get => cost; }
         public string Name;
 
         // Ctor

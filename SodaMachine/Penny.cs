@@ -14,7 +14,7 @@ namespace SodaMachine
         public Penny()
         {
             this.Name = "Penny";
-            this.Value = 0.01d; // cents +Public
+            //this.Value = 0.01d; // cents +Public
             this.value = 0.01d; // cents #Protected
         }
 

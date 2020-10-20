@@ -14,7 +14,7 @@ namespace SodaMachine
         public Quarter()
         {
             this.Name = "Quarter";
-            this.Value = 0.25d; // cents +Public
+            //this.Value = 0.25; // cents +Public
             this.value = 0.25d; // cents #Protected
         }
 

@@ -14,7 +14,7 @@ namespace SodaMachine
         public RootBeer()
         {
             this.Name = "Root Beer";
-            this.Cost = 0.60d; // cents per can +Public
+            //this.Cost = 0.60d; // cents per can +Public
             this.cost = 0.60d; // cents per can #Protected
         }
 

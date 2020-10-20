@@ -10,7 +10,9 @@ namespace SodaMachine
     /// STATIC CLASS
     /// Get back to me tomorrow
     /// </summary>
-    class UserInterface
+    /// 
+    public static class UserInterface
     {
+
     }
 }

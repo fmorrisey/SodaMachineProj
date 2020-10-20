@@ -14,7 +14,7 @@ namespace SodaMachine
         public Dime()
         {
             this.Name = "Dime";
-            this.Value = 0.10d; // cents +Public
+            //this.Value = 0.10d; // cents +Public
             this.value = 0.10d; // cents #Protected
         }
 
