@@ -14,13 +14,16 @@ namespace SodaMachine
         // Member Variables
         public Wallet wallet;
         public BackPack backPack;
+        public Card card;
         // Ctor
         public Customer()
         {
             wallet = new Wallet();
             backPack = new BackPack();
+            card = new Card();
         }
 
         // Member Methods
+        
     }
 }

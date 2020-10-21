@@ -34,19 +34,50 @@ namespace SodaMachine
             //return isPowerOn;
         }
 
-        public void FillSodaMachine(int orangesoda, int rootBeer, int cola)         // Adds Sodas to the inventory
+        private void FillSodaMachine(int orangesoda, int rootBeer, int cola)         // Adds Sodas to the inventory
         {
             for (int i = 0; i < orangesoda; i++) { inventory.Add(new OrangeSoda()); }  
             for (int i = 0; i < rootBeer; i++) { inventory.Add(new RootBeer()); } 
             for (int i = 0; i < cola; i++) { inventory.Add(new Cola()); } 
         }
 
-        public void FillRegister(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
+        private void FillRegister(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
             for (int i = 0; i < quarters; i++){ register.Add(new Quarter()); } 
             for (int i = 0; i < dimes; i++)   { register.Add(new Dime()); } 
             for (int i = 0; i < nickles; i++) { register.Add(new Nickle()); } 
             for (int i = 0; i < pennies; i++) { register.Add(new Penny()); }
+        }
+
+        public double RegisterReconciliation()
+        {
+            double registerTotal = 0.0;
+
+            for (int i = 0; i < register.Count; i++)
+            {
+                registerTotal += register[i].Value;   
+            }
+            registerTotal = Math.Round(registerTotal, 3);
+
+            Console.WriteLine($"Register Total:${registerTotal}");
+            Thread.Sleep(2000);
+            return registerTotal;
+        }
+
+        public void PrintInventoryAndRegister()
+        {
+            Console.WriteLine("Inventory");
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                Console.WriteLine($"{inventory[i].Name} at ${inventory[i].Cost}");
+            }
+
+            Console.WriteLine("Register");
+            for (int i = 0; i < register.Count; i++)
+            {
+                Console.WriteLine($"{register[i].Name} is ${register[i].Value}");
+            }
+            Console.ReadLine();
         }
     }
 }

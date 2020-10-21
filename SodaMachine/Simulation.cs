@@ -22,8 +22,12 @@ namespace SodaMachine
             sodaMachine = new SodaMachine(); // SodaMachine Object exists here.
             customer = new Customer(); // Customer object, with it's wallet, coins, card, and backpack exists here.
             sodaMachine.IsPowerOn(true);
+            //sodaMachine.PrintInventoryAndRegister();
+            sodaMachine.RegisterReconciliation();
+            
         }
         // Member Methods
+        
         
 
     }
