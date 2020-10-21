@@ -9,9 +9,9 @@ namespace SodaMachine
     /// <summary>
     /// This class handles logic such as input validation
     /// </summary>
-    public class Logic
+    public static class Logic
     {
-        public int InputValidation(int UserInput)
+        public static int InputValidation(int UserInput)
         {   // Handles Main Menu user input with validation
             bool askAgain;
 
@@ -31,7 +31,7 @@ namespace SodaMachine
             
         }
 
-        public double InputValidation(double UserInput)
+        public static double InputValidation(double UserInput)
         {
             // Handles Main Menu user input with validation
             bool askAgain;
@@ -49,13 +49,14 @@ namespace SodaMachine
             } while (askAgain == true);
 
             return UserInput;
-            
+
         }
 
-        public string InputValidation(string UserInput)
+        /* FLAGGED FOR REVIEW
+        public static string InputValidation(string UserInput)
         {
             // Handles Main Menu user input with validation
-            /* FLAGGED FOR REVIEW
+            
             bool askAgain;
 
             do
@@ -70,9 +71,10 @@ namespace SodaMachine
                 }
             } while (askAgain == true);
 
-            */
+            
             return UserInput;
         }
+        */
 
     }
 }
