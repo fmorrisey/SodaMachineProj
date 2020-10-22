@@ -61,8 +61,7 @@ namespace SodaMachine
 
                     case 4: /* CHECK SODA INVENTORY */
                         UserInterface.Clear();
-                        sodaMachine.CheckSodaInventory();
-                        Console.WriteLine("Check Soda Inventory 4");
+                        sodaMachine.UIMachineInventory();
                         askAgain = true;
                         break;
 

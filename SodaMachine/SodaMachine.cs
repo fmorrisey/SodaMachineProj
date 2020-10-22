@@ -18,6 +18,9 @@ namespace SodaMachine
         public List<Coin> register;
         public List<Can> inventory;
 
+        private double registerTotalCoins;
+        private int[] registerCoinage;
+
         private int[] avalibleInventory;
         private double stockTotalValue;
         private bool isMachineEmpty;
@@ -32,6 +35,16 @@ namespace SodaMachine
             get { return stockTotalValue; }
         }
 
+        public double RegisterTotalCoins
+        {
+            get { return registerTotalCoins; }                    // the get accessors returns the value 
+        }
+
+        public int[] RegisterCoinage
+        {
+            get { return registerCoinage; }                        // the get accessors returns the value 
+        }
+
         // Ctor
         public SodaMachine()
         {
@@ -43,8 +56,15 @@ namespace SodaMachine
             
             this.avalibleInventory = TotalSodaInventory();
             this.stockTotalValue = TotalInventoryCost();
-            
+
+            this.registerTotalCoins = RegisterTotal();// sets the avalibleCoinage based on what's in the customer's wallet
+
+            this.registerCoinage = new int[4];                // Initializes the private array
+            registerCoinage = RegisterCoainage();             // Adds the array to the public array
+
         }
+
+        
 
         /////////////// UI/LOGIC METHODS ///////////////
         public double UISodaSelection()
@@ -110,11 +130,11 @@ namespace SodaMachine
 
         }
 
-        // INVNETORY CONTROL AND DISPENSING
+        // 
 
 
-        /////////////// MEMBER METHODS ///////////////
-        
+        ///// INVNETORY CONTROL AND DISPENSING ///// 
+
         public bool IsMachineEmpty()
         {
             if (inventory.Count == 0)
@@ -129,14 +149,27 @@ namespace SodaMachine
             return isMachineEmpty;
         }
 
-        public void CheckSodaInventory()
+        public void UIMachineInventory()
         {
+            string displayRegister = Math.Round(RegisterTotalCoins, 3).ToString("0.00");
+            string displayStockValue = Math.Round(StockTotalValue, 3).ToString("0.00");
+
+            Console.WriteLine("#### WHAT'S IN THE MACHINE??? ####");
             UserInterface.MenuDecorators("star");
             Console.WriteLine($"Root Beer: {AvalibleInventory[0]} \n" +
                                 $"Orange Soda: {AvalibleInventory[1]} \n" +
                                 $"Cola: {AvalibleInventory[2]}");
-            UserInterface.MenuDecorators("star");
-            Console.WriteLine($"Total Inventory is: ${StockTotalValue}");
+            UserInterface.MenuDecorators("starlong");
+            Console.WriteLine($"Total Inventory is: ${displayStockValue}");
+            UserInterface.MenuDecorators("starlong");
+            Console.WriteLine($"Quarters: {RegisterCoinage[0]}");
+            Console.WriteLine($"Dimes: {RegisterCoinage[1]}");
+            Console.WriteLine($"Nickels: {RegisterCoinage[2]}");
+            Console.WriteLine($"Pennies: {RegisterCoinage[3]}");
+            UserInterface.MenuDecorators("starlong");
+
+            Console.WriteLine($"Register Coins Total: ${displayRegister}");
+
             UserInterface.WaitForKey("Press ENTER to return to menu...", 500);
         }
 
@@ -190,6 +223,8 @@ namespace SodaMachine
             isMachineEmpty = false;
         }
 
+        ///// REGISTER CONTROL AND RECONCILIATION ///// 
+
         private void FillRegister(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
             for (int i = 0; i < quarters; i++) { register.Add(new Quarter()); }
@@ -229,6 +264,57 @@ namespace SodaMachine
             Console.ReadLine();
         }
 
-        
+        private double RegisterTotal()
+        {
+            double CoinsTotal = 0.0;
+
+            for (int i = 0; i < register.Count; i++)
+            {
+                CoinsTotal += register[i].Value;
+            }
+            CoinsTotal = Math.Round(CoinsTotal, 3);
+
+
+            Thread.Sleep(2000);
+
+            return CoinsTotal;
+        }
+
+        public void UpdateRegisterCoinage()
+        {   /// After the customer/user makes payment we need to 
+            /// reconcile what is available for the next transaction
+            registerTotalCoins = RegisterTotal();
+            registerCoinage = RegisterCoainage();
+        }
+
+        private int[] RegisterCoainage()
+        {   /// Creates an array of the number of individual coins
+            /// available to the customer/user ex; 7 Quarters
+            foreach (Coin coin in register)
+            {
+                switch (coin.Value)
+                {
+                    case 0.25: // Quarter
+                        registerCoinage[0]++;
+                        break;
+                    case 0.10: // Dime
+                        registerCoinage[1]++;
+                        break;
+                    case 0.05: // Nickel
+                        registerCoinage[2]++;
+                        break;
+                    case 0.01: // Penny
+                        registerCoinage[3]++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            Thread.Sleep(1000);
+            return registerCoinage;
+        }
+
+
     }
 }

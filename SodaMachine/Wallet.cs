@@ -116,22 +116,22 @@ namespace SodaMachine
         }
 
         private int[] TotalCoinageInventory()
-        {   /// Creates an array of the number of indviudal coins
+        {   /// Creates an array of the number of individual coins
             /// available to the customer/user ex; 7 Quarters
             foreach (Coin coin in coins)
             {
                 switch (coin.Value)
                 {
-                    case 0.01: // Penny
+                    case 0.25: // Quarter
                         coinageInventory[0]++;
                         break;
-                    case 0.05: // Nickel
+                    case 0.10: // Dime
                         coinageInventory[1]++;
                         break;
-                    case 0.10: // Dime
+                    case 0.05: // Nickel
                         coinageInventory[2]++;
                         break;
-                    case 0.25: // Quarter
+                    case 0.01: // Penny
                         coinageInventory[3]++;
                         break;
                     default:
