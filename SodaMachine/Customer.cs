@@ -24,9 +24,7 @@ namespace SodaMachine
             card = new Card();
         }
 
-        // Member Methods
-        /// HERE WE ADD METHODS THAT WILL
-        /// Insert money into the machine
+        /////////////// UI AND PAYMENT HANDLING ///////////////
 
         public void UICheckWallet()
         {

@@ -8,24 +8,22 @@ using System.Threading.Tasks;
 namespace SodaMachine
 {
     /// <summary>
-    /// STATIC CLASS
-    /// It's tomorrow now what?
+    /// Static UI Elements live here including useful UI utilities
     /// </summary>
     /// 
     public static class UserInterface
     {
         /////////////// UI DISPLAY / DRAW ///////////////
-        
         public static void DisplayMainMenu()
         {   //DRAWS AI SPECIFIC MENU FOR THE COMPUTER AI
             Console.WriteLine("###### WELCOME TO ###### \n" +
                               "##### SODA MACHINE ##### \n" +
-                              "    [1] Beverage Selection\n" +
-                              "    [2] Check Wallet\n" +
-                              "    [3] Check Backpack \n\n" +
-                              "    [4] Check Soda Inventory \n\n" +
+                              "  [1] Beverage Selection\n" +
+                              "  [2] Check Wallet\n" +
+                              "  [3] Check Backpack \n\n" +
+                              "  [4] Check Soda Inventory \n\n" +
                               "    \n" +
-                              "    [5] Exit \n");
+                              "  [5] Exit \n");
             MenuDecorators("hashlong");
             Thread.Sleep(1000);
         }
@@ -36,7 +34,7 @@ namespace SodaMachine
                               "Pick you favorite beverage \n" +
                              $"  [1] Root Beer | $0.60 \n" +
                              $"  [2] Orange Soda |$0.06 \n" +
-                             $"  [3] Cola | $0.35\n\n" +
+                             $"  [3] Cola | $0.35 \n\n" +
                               "    \n" +
                               "  [4] Exit \n");
             MenuDecorators("hashlong");

@@ -39,9 +39,8 @@ namespace SodaMachine
                 int userInput = UserInterface.IntInputValidation("Select a menu option: ");
                 switch (userInput)
                 {
-                    case 1:
-                        Console.WriteLine("[1] Beverage Selection");
-                        UserInterface.Clear();
+                    case 1: /* PURCHASE SODA */
+                        UserInterface.Clear(); 
                         payAmount = sodaMachine.UISodaSelection();
                         customer.UISelectPaymentType(payAmount);
                         customer.PaymentSelection();
@@ -49,19 +48,17 @@ namespace SodaMachine
                         askAgain = true;
                         break;
 
-                    case 2:
-                        Console.WriteLine("[2] Check Wallet");
+                    case 2: /* CHECK WALLET FUNDS */
                         UserInterface.Clear();
                         customer.UICheckWallet();
                         askAgain = true;
                         break;
 
-                    case 3: /*CHECK BACKPACK METHOD*/
-                        Console.WriteLine("Check Backpack 3");
+                    case 3: /* CHECK BACKPACK METHOD */
                         askAgain = true;
                         break;
 
-                    case 4:
+                    case 4: /* CHECK SODA INVENTORY */
                         UserInterface.Clear();
                         sodaMachine.CheckSodaInventory();
                         Console.WriteLine("Check Soda Inventory 4");
@@ -69,7 +66,6 @@ namespace SodaMachine
                         break;
 
                     case 5:
-                        
                         askAgain = false;
                         break;
 

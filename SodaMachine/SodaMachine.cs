@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace SodaMachine
 {
     /// <summary>
-    /// This class will hold the Register and Inventory Lists collections
-    /// Fills the lists with objects for the collection
+    /// This class holds the machines register and soda inventory
+    /// Access is controlled by the public properties
     /// </summary>
     class SodaMachine
     {
@@ -47,7 +47,6 @@ namespace SodaMachine
         }
 
         /////////////// UI/LOGIC METHODS ///////////////
-
         public double UISodaSelection()
         {
             int sodaSelection;  

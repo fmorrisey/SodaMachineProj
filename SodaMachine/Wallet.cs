@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace SodaMachine
 {
     /// <summary>
-    /// The customer's wallet will hold the List<Coins> and card
+    /// The customer's funds are stored in this class with access
+    /// controlled by the public properties
     /// </summary>
     class Wallet
     {
@@ -43,8 +44,8 @@ namespace SodaMachine
             coinageInventory = TotalCoinageInventory();             // Adds the array to the public array
         }
 
-        // Member Methods
-                       
+        //////////////////// FUNCTIONAL UTLILTIES //////////////////////
+        /// These methods control wallet functions and payment handling
 
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {

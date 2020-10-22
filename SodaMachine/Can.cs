@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SodaMachine
 {
     /// <summary>
-    /// The Parent class of the soda flavors
+    /// The Parent class that the child classes of soda flavors inherit from
     /// </summary>
     public abstract class Can
     {
@@ -16,7 +16,7 @@ namespace SodaMachine
         public double Cost { get => cost; }
         public string Name;
 
-        // Ctor
+        // CTOR
         public Can()
         {
             this.cost = Math.Round(cost, 2);
