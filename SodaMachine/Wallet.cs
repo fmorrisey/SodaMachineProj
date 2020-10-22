@@ -44,21 +44,7 @@ namespace SodaMachine
         }
 
         // Member Methods
-        public void CheckWallet()
-        {
-            UserInterface.MenuDecorators("starlong");
-            Console.WriteLine("#### WHAT IN MY WALLET? ####");
-            UserInterface.MenuDecorators("starlong");
-            Console.WriteLine($"Quarters: {CoinageInventory[0]}");
-            Console.WriteLine($"Dimes: {CoinageInventory[1]}");
-            Console.WriteLine($"Nickels: {CoinageInventory[2]}");
-            Console.WriteLine($"Pennies: {CoinageInventory[3]}");
-            UserInterface.MenuDecorators("starlong");
-            Console.WriteLine($"Wallet Coins Total: ${totalAvaliableCoinage}");
-            UserInterface.MenuDecorators("starlong");
-            Console.WriteLine($"${card.AvailableFunds} on card");   // tells the user how much is in their debt account
-            UserInterface.WaitForKey("Press ENTER to continue...", 500);
-        }
+                       
 
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
@@ -113,28 +99,5 @@ namespace SodaMachine
         }
 
 
-        /*
-        public void AddMoney(double amountToAdd)
-        {
-            availableFunds += amountToAdd;
-        }
-
-        public bool RemoveMoney(double amountToRemove)
-        {
-            bool sufficientFunds;
-            if (coins.Count <= 0)
-            {
-                availableFunds = 0;
-                sufficientFunds = false;
-                return sufficientFunds;
-            }
-            else
-            {
-                availableFunds -= amountToRemove;
-                sufficientFunds = true;
-                return sufficientFunds;
-            }
-        }
-        */
     }
 }

@@ -43,12 +43,70 @@ namespace SodaMachine
             
             this.avalibleInventory = TotalSodaInventory();
             this.stockTotalValue = TotalInventoryCost();
-
-
+            
         }
 
-        /////////////// Selection Methods ///////////////
+        /////////////// UI/LOGIC METHODS ///////////////
 
+        public double UISodaSelection()
+        {
+            int sodaSelection;  
+            bool askAgain = true;
+            double paymentAmount = 0;
+            
+            do
+            {
+                UserInterface.Clear();
+                UserInterface.DisplaySodaSelction();
+                sodaSelection = UserInterface.IntInputValidation("Select your soda: ");
+
+                switch (sodaSelection)
+                {
+                    case 1: /* Root Beer */
+                        if (avalibleInventory[0] == 0)   //check inventory
+                        {
+                            UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
+                            askAgain = true;
+                        } else { paymentAmount = 0.60d; askAgain = false; } 
+                        
+                        // Ask for payment UI
+                        // Check payment
+                        // Dispense Soda
+                        break;
+                    case 2: /* Orange Soda */
+                        if (avalibleInventory[1] == 0)   //check inventory
+                        {
+                            UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
+                            askAgain = true;
+                        }
+                        else { paymentAmount = 0.06d; askAgain = false; }
+
+                        break;
+                    case 3: /* Cola */
+                        if (avalibleInventory[2] == 0)   //check inventory
+                        {
+                            UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
+                            askAgain = true;
+                        }
+                        else { paymentAmount = 0.35d; askAgain = false; }
+
+                        break;
+                    case 4: /* Exit */; break;
+
+                    default:
+                        break;
+                }
+
+            } while (askAgain == true);
+            
+            Math.Round(paymentAmount, 3);
+            return paymentAmount;
+        }
+
+
+
+        /////////////// MEMBER METHODS ///////////////
+        
         public bool IsMachineEmpty()
         {
             if (inventory.Count == 0)
@@ -63,12 +121,6 @@ namespace SodaMachine
             return isMachineEmpty;
         }
 
-        public void SodaSelection()
-        {
-            int sodaSelection;
-            sodaSelection = UserInterface.IntInputValidation();
-        }
-
         public void CheckSodaInventory()
         {
             UserInterface.MenuDecorators("star");
@@ -79,8 +131,6 @@ namespace SodaMachine
             Console.WriteLine($"Total Inventory is: ${StockTotalValue}");
             UserInterface.WaitForKey("Press ENTER to return to menu...", 500);
         }
-
-        /////////////// MEMBER METHODS ///////////////
 
         private int[] TotalSodaInventory()
         {
@@ -113,7 +163,7 @@ namespace SodaMachine
             {
                 stockTotalValue += inventory[i].Cost;
             }
-            stockTotalValue = Math.Round(stockTotalValue, 2); 
+            stockTotalValue = Math.Round(stockTotalValue, 3); 
             return stockTotalValue;
         }
 
@@ -124,10 +174,10 @@ namespace SodaMachine
             //return isPowerOn;
         }
 
-        private void FillSodaMachine(int orangesoda, int rootBeer, int cola)         // Adds Sodas to the inventory
+        private void FillSodaMachine(int rootBeer, int orangesoda, int cola)         // Adds Sodas to the inventory
         {
-            for (int i = 0; i < orangesoda; i++) { inventory.Add(new OrangeSoda()); }
             for (int i = 0; i < rootBeer; i++) { inventory.Add(new RootBeer()); }
+            for (int i = 0; i < orangesoda; i++) { inventory.Add(new OrangeSoda()); }
             for (int i = 0; i < cola; i++) { inventory.Add(new Cola()); }
             isMachineEmpty = false;
         }

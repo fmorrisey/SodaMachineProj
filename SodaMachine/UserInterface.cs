@@ -32,13 +32,13 @@ namespace SodaMachine
 
         public static void DisplaySodaSelction()
         {   //DRAWS MENU SODA SELECTION
-            Console.WriteLine($"##### SODA MACHINE ##### \n" +
+            Console.WriteLine($"######## SODA MACHINE ######## \n" +
                               "Pick you favorite beverage \n" +
-                             $"    [1] Root Beer |  \n" +
-                             $"    [2] Orange Soda \n" +
-                             $"    [3] Cola \n\n" +
+                             $"  [1] Root Beer | $0.60 \n" +
+                             $"  [2] Orange Soda |$0.06 \n" +
+                             $"  [3] Cola | $0.35\n\n" +
                               "    \n" +
-                              "    [4] Exit \n");
+                              "  [4] Exit \n");
             MenuDecorators("hashlong");
             Thread.Sleep(1000);
         }
@@ -131,14 +131,14 @@ namespace SodaMachine
         }
 
         /////////////// INPUT VALIDATION ///////////////
-        public static int IntInputValidation()
+        public static int IntInputValidation(string message)
         {   // Handles Main Menu user input with validation
             bool askAgain;
             int UserInput;
 
             do
             {
-                Console.Write("Enter a menu option: ");
+                Console.Write(message);
                 if (int.TryParse(Console.ReadLine(), out UserInput))
                 { return UserInput; }
                 else

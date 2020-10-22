@@ -28,26 +28,31 @@ namespace SodaMachine
         public void SelectMainMenu()
         {
             bool askAgain = true;
-            
+            double payAmount = 0.00d;
+            int paymentSelection = 0;
+
+
             do
             {
                 UserInterface.Clear();
                 UserInterface.DisplayMainMenu();
-                int userInput = UserInterface.IntInputValidation();
+                int userInput = UserInterface.IntInputValidation("Select a menu option: ");
                 switch (userInput)
                 {
                     case 1:
                         Console.WriteLine("[1] Beverage Selection");
                         UserInterface.Clear();
-                        UserInterface.DisplaySodaSelction();
-                        sodaMachine.SodaSelection();
+                        payAmount = sodaMachine.UISodaSelection();
+                        customer.UISelectPaymentType(payAmount);
+                        customer.PaymentSelection();
+
                         askAgain = true;
                         break;
 
                     case 2:
                         Console.WriteLine("[2] Check Wallet");
                         UserInterface.Clear();
-                        customer.wallet.CheckWallet();
+                        customer.UICheckWallet();
                         askAgain = true;
                         break;
 
