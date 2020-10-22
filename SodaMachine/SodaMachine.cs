@@ -272,9 +272,7 @@ namespace SodaMachine
                 registerTotal += register[i].Value;
             }
             registerTotal = Math.Round(registerTotal, 3);
-
-            Console.WriteLine($"Register Total:${registerTotal}");
-            Thread.Sleep(2000);
+            
             return registerTotal;
         }
 
@@ -293,9 +291,6 @@ namespace SodaMachine
                 CoinsTotal += register[i].Value;
             }
             CoinsTotal = Math.Round(CoinsTotal, 3);
-
-
-            Thread.Sleep(2000);
 
             return CoinsTotal;
         }
@@ -325,7 +320,7 @@ namespace SodaMachine
                 }
             }
 
-            Thread.Sleep(1000);
+           
             return registerCoinage;
         }
 

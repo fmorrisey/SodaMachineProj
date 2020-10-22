@@ -118,7 +118,12 @@ namespace SodaMachine
 
         public double AskForPayment(double payment, Wallet wallet)
         {
-            //wallet.coins[i].Value = 0.25;
+            
+            
+            do
+            {
+
+            } while (true);
 
             return payment;
         }

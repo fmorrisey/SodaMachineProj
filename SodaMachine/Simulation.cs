@@ -17,12 +17,15 @@ namespace SodaMachine
         public SodaMachine sodaMachine;
         public Customer customer;
         private bool validPayment;
+        public int[] transferHand;
+
         // Ctor
         public Simulation()
         {
             sodaMachine = new SodaMachine(); // SodaMachine Object exists here.
             customer = new Customer(); // Customer object, with it's wallet, coins, card, and backpack exists here.
             SelectMainMenu();
+            transferHand = new int[4]; //Transfer Array to pass coins between the customer and the machine
         }
         // Member Methods
 
@@ -41,7 +44,7 @@ namespace SodaMachine
                 switch (userInput)
                 {
                     case 1: /* PURCHASE SODA */
-                        UserInterface.Clear(); 
+                        UserInterface.Clear();
                         payAmount = sodaMachine.UISodaSelection();  // Loads selection UI returns payment value
                         customer.UISelectPaymentType(payAmount);    // Asks for payment type with dynamic payment value
                         validPayment = customer.PaymentSelection(payAmount);       // User Selects payment type then asked for payment
@@ -76,11 +79,15 @@ namespace SodaMachine
                 }
 
             } while (askAgain == true);
-            
+
 
         }
-
-
+        /*
+        public int[] Hand()
+        {
+            return validPayment;
+        }
+        */
 
     }
 }

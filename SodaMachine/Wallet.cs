@@ -36,7 +36,8 @@ namespace SodaMachine
             coins = new List<Coin>();                               // coins in the customer's possession
             card = new Card();
             
-            FillPocketsWithCoins(12, 15, 7, 15);                    // fill the customer's pockets with coins with $5
+            //FillPocketsWithCoins(12, 15, 7, 15);                    // fill the customer's pockets with coins with $5
+            FillPocketsWithCoins(1, 1, 1, 0);                    // fill the customer's pockets with coins with $5
             
             this.totalAvaliableCoinage = WalletCoinReconciliation();// sets the avalibleCoinage based on what's in the customer's wallet
             
@@ -61,22 +62,24 @@ namespace SodaMachine
             Console.WriteLine($"[4]Pennies: {CoinageInventory[3]}");
             UserInterface.MenuDecorators("starlong");
         }
-             
 
         //////////////////// FUNCTIONAL UTLILTIES //////////////////////
         /// These methods control wallet functions and payment handling
         public bool CheckCoins(double EnoughCoins)
-        {
+        {   // Checks before transaction for sufficient funds
             bool sufficientFunds;
-            if (totalAvaliableCoinage <= 0)
+            if (totalAvaliableCoinage <= 0) // If you're broke that's a nope
             {
-                totalAvaliableCoinage = 0;
                 sufficientFunds = false;
                 return sufficientFunds;
             }
+            else if (totalAvaliableCoinage < EnoughCoins)
+            { // If you have the coins, but not enough for the product
+                sufficientFunds = false; // That'll be a No Dog
+                return sufficientFunds;
+            }
             else
-            {
-                totalAvaliableCoinage -= EnoughCoins;
+            {   // If you have enough make payment
                 sufficientFunds = true;
                 return sufficientFunds;
             }
@@ -103,7 +106,7 @@ namespace SodaMachine
             CoinsTotal = Math.Round(CoinsTotal, 3);
 
             
-            Thread.Sleep(2000);
+           
 
             return CoinsTotal;
         }
@@ -140,7 +143,7 @@ namespace SodaMachine
             }
                        
 
-            Thread.Sleep(1000);
+            
             return coinageInventory;
         }
 

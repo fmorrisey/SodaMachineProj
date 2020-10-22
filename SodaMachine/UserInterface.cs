@@ -26,7 +26,7 @@ namespace SodaMachine
                               "    \n" +
                               "  [5] Exit \n");
             MenuDecorators("hashlong");
-            Thread.Sleep(1000);
+            
         }
 
         public static void DisplaySodaSelction()
@@ -39,7 +39,7 @@ namespace SodaMachine
                               "    \n" +
                               "  [4] Exit \n");
             MenuDecorators("hashlong");
-            Thread.Sleep(1000);
+            
         }
 
         public static void ExitMessageDraw()
