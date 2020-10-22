@@ -116,9 +116,9 @@ namespace SodaMachine
             UserInterface.MenuDecorators("starlong");
         }
 
-        public double AskForPayment(double payment)
+        public double AskForPayment(double payment, Wallet wallet)
         {
-
+            //wallet.coins[i].Value = 0.25;
 
             return payment;
         }

@@ -33,7 +33,6 @@ namespace SodaMachine
             int paymentSelection = 0;
             string transferCan;
 
-
             do
             {
                 UserInterface.Clear();
@@ -48,7 +47,7 @@ namespace SodaMachine
                         validPayment = customer.PaymentSelection(payAmount);       // User Selects payment type then asked for payment
                         transferCan = sodaMachine.DispenseSoda(validPayment);
                         customer.backPack.AddSodaToBackPack(transferCan);
-                        //sodaMachine.UpdateRegisterCoinage(payAmount);
+                        sodaMachine.UpdateRegisterCoinage();
                         sodaMachine.UpdateSodaInventory();
                         askAgain = true;
                         break;

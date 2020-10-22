@@ -128,45 +128,6 @@ namespace SodaMachine
             return paymentAmount;
         }
 
-        public string DispenseSoda(bool validPayment)
-        {
-            if (validPayment == false) //This double checks the payment integrity
-            {   // User will lose money but this is a "security feature" to protect inventory
-                
-            }
-            else
-            {
-                for (int i = 0; i < inventory.Count; i++)
-                {
-                    if (inventory[i].Name == canSelection)
-                    {
-                        inventory.Remove(inventory[i]);
-                        UserInterface.Pause($"{inventory[i].Name} Dispensed", 1000);
-                        break;
-                    }
-                }
-            }
-            
-            return canSelection;
-
-        }
-
-        ///// INVNETORY CONTROL AND DISPENSING ///// 
-
-        public bool IsMachineEmpty()
-        {
-            if (inventory.Count == 0)
-            {
-                isMachineEmpty = true;
-            }
-            else
-            {
-                isMachineEmpty = false;
-            }
-
-            return isMachineEmpty;
-        }
-
         public void UIMachineInventory()
         {
             string displayRegister = Math.Round(RegisterTotalCoins, 3).ToString("0.00");
@@ -189,6 +150,38 @@ namespace SodaMachine
             Console.WriteLine($"Register Coins Total: ${displayRegister}");
 
             UserInterface.WaitForKey("Press ENTER to return to menu...", 500);
+        }
+
+        ///// INVNETORY CONTROL AND DISPENSING ///// 
+        private void FillSodaMachine(int rootBeer, int orangesoda, int cola)         // Adds Sodas to the inventory
+        {
+            for (int i = 0; i < rootBeer; i++) { inventory.Add(new RootBeer()); }
+            for (int i = 0; i < orangesoda; i++) { inventory.Add(new OrangeSoda()); }
+            for (int i = 0; i < cola; i++) { inventory.Add(new Cola()); }
+            isMachineEmpty = false;
+        }
+
+        public string DispenseSoda(bool validPayment)
+        {
+            if (validPayment == false) //This double checks the payment integrity
+            {   // User will lose money but this is a "security feature" to protect inventory
+                
+            }
+            else
+            {
+                for (int i = 0; i < inventory.Count; i++)
+                {
+                    if (inventory[i].Name == canSelection)
+                    {
+                        inventory.Remove(inventory[i]);
+                        UserInterface.Pause($"{inventory[i].Name} Dispensed", 1000);
+                        break;
+                    }
+                }
+            }
+            
+            return canSelection;
+
         }
 
         private int[] TotalSodaInventory()
@@ -226,24 +219,33 @@ namespace SodaMachine
             return stockTotalValue;
         }
 
+        public void UpdateSodaInventory()
+        {   /// Updates the available inventory
+            avalibleInventory = TotalSodaInventory();
+            stockTotalValue = TotalInventoryCost();
+            isMachineEmpty = IsMachineEmpty();
+        }
+        
+        public bool IsMachineEmpty()
+        {
+            bool checkInventory;
+            if (inventory.Count == 0)
+            {
+                checkInventory = true;
+            }
+            else
+            {
+                checkInventory = false;
+            }
+
+            return checkInventory;
+        }
+
         public void IsPowerOn(bool isPowerOn)                                       //Powers on the soda machine (has no real functionality)
         {
             if (isPowerOn == true) { Console.WriteLine("The Soda Machine is ON"); Thread.Sleep(1000); }
             else { Console.WriteLine("The Soda Machine is OFF"); Thread.Sleep(1000); }
             //return isPowerOn;
-        }
-
-        public void UpdateSodaInventory()
-        {   /// Updates the available inventory
-            avalibleInventory = TotalSodaInventory();
-            stockTotalValue = TotalInventoryCost();
-        }
-        private void FillSodaMachine(int rootBeer, int orangesoda, int cola)         // Adds Sodas to the inventory
-        {
-            for (int i = 0; i < rootBeer; i++) { inventory.Add(new RootBeer()); }
-            for (int i = 0; i < orangesoda; i++) { inventory.Add(new OrangeSoda()); }
-            for (int i = 0; i < cola; i++) { inventory.Add(new Cola()); }
-            isMachineEmpty = false;
         }
 
         ///// REGISTER CONTROL AND RECONCILIATION ///// 
@@ -254,6 +256,11 @@ namespace SodaMachine
             for (int i = 0; i < dimes; i++) { register.Add(new Dime()); }
             for (int i = 0; i < nickles; i++) { register.Add(new Nickle()); }
             for (int i = 0; i < pennies; i++) { register.Add(new Penny()); }
+        }
+
+        public void AddToRegister(double coinsToAdd)
+        {
+
         }
 
         public double RegisterReconciliation()
@@ -271,22 +278,12 @@ namespace SodaMachine
             return registerTotal;
         }
 
-        public void PrintInventoryAndRegister()
-        {
-            Console.WriteLine("Inventory");
-            for (int i = 0; i < inventory.Count; i++)
-            {
-                Console.WriteLine($"{inventory[i].Name} at ${inventory[i].Cost}");
-            }
-
-            Console.WriteLine("Register");
-            for (int i = 0; i < register.Count; i++)
-            {
-                Console.WriteLine($"{register[i].Name} is ${register[i].Value}");
-            }
-            Console.ReadLine();
+        public void UpdateRegisterCoinage()
+        {   /// After the customer/user makes payment we need to 
+            /// reconcile what is available for the next transaction         
+            registerTotalCoins = RegisterTotal();
+            registerCoinage = RegisterCoainage();
         }
-
         private double RegisterTotal()
         {
             double CoinsTotal = 0.0;
@@ -303,12 +300,6 @@ namespace SodaMachine
             return CoinsTotal;
         }
 
-        public void UpdateRegisterCoinage(double addPayment)
-        {   /// After the customer/user makes payment we need to 
-            /// reconcile what is available for the next transaction         
-            registerTotalCoins = RegisterTotal();
-            registerCoinage = RegisterCoainage();
-        }
 
         private int[] RegisterCoainage()
         {   /// Creates an array of the number of individual coins
