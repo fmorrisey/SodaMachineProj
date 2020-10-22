@@ -66,7 +66,10 @@ namespace SodaMachine
                         {
                             UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
                             askAgain = true;
-                        } else { paymentAmount = 0.60d; askAgain = false; } 
+                        } else
+                        {
+                            paymentAmount = 0.60d; askAgain = false;
+                        } 
                         
                         // Ask for payment UI
                         // Check payment
@@ -102,6 +105,12 @@ namespace SodaMachine
             return paymentAmount;
         }
 
+        public void InventoryUpdate(Can can)
+        {
+
+        }
+
+        // INVNETORY CONTROL AND DISPENSING
 
 
         /////////////// MEMBER METHODS ///////////////

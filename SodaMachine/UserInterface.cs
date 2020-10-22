@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 namespace SodaMachine
 {
     /// <summary>
-    /// Static UI Elements live here including useful UI utilities
+    /// Static UI elements and utilities live here including input validation
+    /// Dynamic UI elements are found within their respective classes
     /// </summary>
     /// 
     public static class UserInterface

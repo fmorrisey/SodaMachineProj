@@ -33,7 +33,7 @@ namespace SodaMachine
             availableFunds += amountToAdd;
         }
 
-        public bool RemoveMoney(double amountToRemove)
+        public bool SwipeCard(double amountToRemove)
         {
             bool sufficientFunds;
             if (availableFunds <= 0)

@@ -44,8 +44,45 @@ namespace SodaMachine
             coinageInventory = TotalCoinageInventory();             // Adds the array to the public array
         }
 
+        public void UICoinPayment(double payment)
+        {
+            string displayPayment = Math.Round(payment, 3).ToString("0.00");
+            UserInterface.Clear();
+            UserInterface.MenuDecorators("starlong");
+
+            Console.WriteLine("     #### Select your Payment ####");
+            Console.WriteLine($"        | Soda costs: ${displayPayment} |");
+
+            UserInterface.MenuDecorators("starlong");
+            Console.WriteLine("Select the coins you would like to use: ");
+            Console.WriteLine($"[1]Quarters: {CoinageInventory[0]}");
+            Console.WriteLine($"[2]Dimes: {CoinageInventory[1]}");
+            Console.WriteLine($"[3]Nickels: {CoinageInventory[2]}");
+            Console.WriteLine($"[4]Pennies: {CoinageInventory[3]}");
+            UserInterface.MenuDecorators("starlong");
+        }
+             
+
         //////////////////// FUNCTIONAL UTLILTIES //////////////////////
         /// These methods control wallet functions and payment handling
+        public bool CheckCoins(double EnoughCoins)
+        {
+            bool sufficientFunds;
+            if (totalAvaliableCoinage <= 0)
+            {
+                totalAvaliableCoinage = 0;
+                sufficientFunds = false;
+                return sufficientFunds;
+            }
+            else
+            {
+                totalAvaliableCoinage -= EnoughCoins;
+                sufficientFunds = true;
+                return sufficientFunds;
+            }
+
+        }
+
 
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
@@ -71,8 +108,16 @@ namespace SodaMachine
             return CoinsTotal;
         }
 
+        public void UpdateCoinageInventory()
+        {   /// After the customer/user makes payment we need to 
+            /// reconcile what is available for the next transaction
+            totalAvaliableCoinage = WalletCoinReconciliation();
+            coinageInventory = TotalCoinageInventory();
+        }
+
         private int[] TotalCoinageInventory()
-        {
+        {   /// Creates an array of the number of indviudal coins
+            /// available to the customer/user ex; 7 Quarters
             foreach (Coin coin in coins)
             {
                 switch (coin.Value)

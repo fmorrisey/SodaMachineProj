@@ -43,7 +43,8 @@ namespace SodaMachine
                         UserInterface.Clear(); 
                         payAmount = sodaMachine.UISodaSelection();
                         customer.UISelectPaymentType(payAmount);
-                        customer.PaymentSelection();
+                        customer.PaymentSelection(payAmount);
+
 
                         askAgain = true;
                         break;

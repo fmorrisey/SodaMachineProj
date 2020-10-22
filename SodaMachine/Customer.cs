@@ -50,7 +50,7 @@ namespace SodaMachine
             UserInterface.WaitForKey("Press ENTER to continue...", 500);
         }
 
-        public void PaymentSelection()
+        public void PaymentSelection(double payAmount)
         {
             int paymentSelection = 0;
             bool askAgain = true;
@@ -59,9 +59,34 @@ namespace SodaMachine
                 paymentSelection = UserInterface.IntInputValidation("Select your payment type: ");
                 switch (paymentSelection)
                 {
-                    case 1: /*WALLET*/; askAgain = false; break;
-                    case 2: /*CARD*/; askAgain = false;  break;
-                    case 3: /*Exit*/; askAgain = false;  break;
+                    case 1: /*WALLET*/; askAgain = false;
+                        if (wallet.CheckCoins(payAmount) == false)  // Check Funds before payment request
+                        {
+                            Console.WriteLine("Insufficient Funds");
+                            askAgain = true;
+                        }
+                        else
+                        {                                           // Select coins and pay
+                            wallet.UICoinPayment(payAmount);
+                            wallet.UpdateCoinageInventory();        // Updates the coins available 
+                            askAgain = false;                       // in the customer's possession
+                        }
+                        break;
+                    case 2: /*CARD*/;
+                        if (card.SwipeCard(payAmount) == false)
+                        {
+                            Console.WriteLine("Insufficient Funds");
+                            askAgain = true;
+                        }
+                        else
+                        {
+                            askAgain = false;
+                        }
+                        
+                        break;
+                    case 3: /*Exit*/; askAgain = false;  
+                        
+                        break;
                     default: Console.WriteLine("Incorrect Payment option");
                         askAgain = true; break;
                 }
@@ -93,28 +118,6 @@ namespace SodaMachine
             return payment;
         }
 
-        /*
-        public void AddMoney(double amountToAdd)
-        {
-            wallet.availableFunds += amountToAdd;
-        }
-
-        public bool RemoveMoney(double amountToRemove)
-        {
-            bool sufficientFunds;
-            if (coins.Count <= 0)
-            {
-                availableFunds = 0;
-                sufficientFunds = false;
-                return sufficientFunds;
-            }
-            else
-            {
-                availableFunds -= amountToRemove;
-                sufficientFunds = true;
-                return sufficientFunds;
-            }
-        }
-        */
+        
     }
 }
