@@ -50,8 +50,6 @@
     <Compile Include="Cola.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Dime.cs" />
-    <Compile Include="Logic.cs" />
-    <Compile Include="Menu.cs" />
     <Compile Include="Nickle.cs" />
     <Compile Include="OrangeSoda.cs" />
     <Compile Include="Penny.cs" />

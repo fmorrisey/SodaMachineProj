@@ -44,9 +44,7 @@ namespace SodaMachine
         public void SodaSelection()
         {
             int sodaSelection;
-            UserInterface.DisplaySodaSelction();
             sodaSelection = UserInterface.IntInputValidation();
-            
         }
 
         public void CheckSodaInventory()

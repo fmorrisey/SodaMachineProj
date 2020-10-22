@@ -15,10 +15,6 @@ namespace SodaMachine
     public static class UserInterface
     {
         /////////////// UI DISPLAY / DRAW ///////////////
-        public static void RunUI()
-        {
-            DisplayMainMenu();
-        }
         
         public static void DisplayMainMenu()
         {   //DRAWS AI SPECIFIC MENU FOR THE COMPUTER AI
@@ -36,7 +32,6 @@ namespace SodaMachine
 
         public static void DisplaySodaSelction()
         {   //DRAWS MENU SODA SELECTION
-
             Console.WriteLine($"##### SODA MACHINE ##### \n" +
                               "Pick you favorite beverage \n" +
                              $"    [1] Root Beer \n" +
@@ -50,16 +45,12 @@ namespace SodaMachine
 
         public static void ExitMessageDraw()
         {
-            Clear();
             Console.WriteLine("Created by: Forrest Morrisey // Oct 2020");
             Console.WriteLine("Thank you for supporting your local dentist!!!");
             Console.WriteLine("Winners drink water");
             Console.WriteLine("FBI ANTI-PIRACY WARNING");
             WaitForKey("", 1000);
         }
-
-
-
 
         /////////////// UI UTLILTIES ///////////////
         public static void WaitForKey(string message, int waitTime)
@@ -84,6 +75,39 @@ namespace SodaMachine
             Console.Clear();
         }
 
+        public static void BlinkerTrip(string text, int blinkNum, int milliseconds)
+        {
+            //COPIED AND MODIFIED FROM STACKOVERFLOW https://stackoverflow.com/questions/4755204/adding-line-break
+            //Takes in custom text, repeats three times, blinks as much as you like, and at a set interval
+
+            bool visible = true;
+            for (int i = 0; i < blinkNum; i++)
+            {
+                string alert = visible ? ($"{text} {text} {text}") : "";
+                visible = !visible;
+                Console.Clear();
+                Console.Write("{0}\n", alert);
+                Thread.Sleep(milliseconds);
+            }
+        }
+
+        public static void BlinkerSingle(string text, int blinkNum, int milliseconds)
+        {
+            //COPIED AND MODIFIED FROM STACKOVERFLOW https://stackoverflow.com/questions/4755204/adding-line-break
+            //Takes in custom text, repeats three times, blinks as much as you like, and at a set interval
+
+            bool visible = true;
+            for (int i = 0; i < blinkNum; i++)
+            {
+                string alert = visible ? ($"{text}") : "";
+                visible = !visible;
+                Console.Clear();
+                Console.WriteLine();
+                Console.Write("{0}\n", alert);
+                Thread.Sleep(milliseconds);
+            }
+        }
+
         /////////////// MENU EXTRAS ///////////////
         public static void MenuDecorators(string Decoration)
         { // call using the options to decorate the menues!
@@ -91,7 +115,7 @@ namespace SodaMachine
             switch (parameterconvert)
             {
                 case "star": Console.WriteLine("***************"); break;
-                case "starl0ng": Console.WriteLine("*****************************************"); break;
+                case "starlong": Console.WriteLine("*****************************************"); break;
                 case "dash": Console.WriteLine("---------------"); break;
                 case "plus": Console.WriteLine("+++++++++++++++"); break;
                 case "equal": Console.WriteLine("==============="); break;

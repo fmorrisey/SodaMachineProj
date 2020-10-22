@@ -37,9 +37,7 @@ namespace SodaMachine
             
             FillPocketsWithCoins(12, 15, 7, 15);                    // fill the customer's pockets with coins with $5
             
-            this.totalAvaliableCoinage = WalletCoinReconciliation();      // sets the avalibleCoinage based on what's in the customer's wallet
-            
-            
+            this.totalAvaliableCoinage = WalletCoinReconciliation();// sets the avalibleCoinage based on what's in the customer's wallet
             
             this.coinageInventory = new int[4];                     // Initializes the private array
             coinageInventory = TotalCoinageInventory();             // Adds the array to the public array
@@ -48,20 +46,18 @@ namespace SodaMachine
         // Member Methods
         public void CheckWallet()
         {
-            UserInterface.MenuDecorators("star");
+            UserInterface.MenuDecorators("starlong");
             Console.WriteLine("#### WHAT IN MY WALLET? ####");
-            UserInterface.MenuDecorators("star");
+            UserInterface.MenuDecorators("starlong");
             Console.WriteLine($"Quarters: {CoinageInventory[0]}");
             Console.WriteLine($"Dimes: {CoinageInventory[1]}");
             Console.WriteLine($"Nickels: {CoinageInventory[2]}");
             Console.WriteLine($"Pennies: {CoinageInventory[3]}");
-            UserInterface.MenuDecorators("star");
+            UserInterface.MenuDecorators("starlong");
             Console.WriteLine($"Wallet Coins Total: ${totalAvaliableCoinage}");
-            UserInterface.MenuDecorators("star");
+            UserInterface.MenuDecorators("starlong");
             Console.WriteLine($"${card.AvailableFunds} on card");   // tells the user how much is in their debt account
             UserInterface.WaitForKey("Press ENTER to continue...", 500);
-            
-
         }
 
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
