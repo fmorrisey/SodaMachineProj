@@ -16,6 +16,8 @@ namespace SodaMachine
         public BackPack backPack;
         public Card card;
 
+        public bool paymentMade;
+
         // Ctor
         public Customer()
         {
@@ -50,7 +52,7 @@ namespace SodaMachine
             UserInterface.WaitForKey("Press ENTER to continue...", 500);
         }
 
-        public void PaymentSelection(double payAmount)
+        public bool PaymentSelection(double payAmount)
         {
             int paymentSelection = 0;
             bool askAgain = true;
@@ -67,19 +69,22 @@ namespace SodaMachine
                         }
                         else
                         {                                           // Select coins and pay
-                            wallet.UICoinPayment(payAmount);
-                            wallet.UpdateCoinageInventory();        // Updates the coins available 
+                            wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
+                            wallet.CheckCoins(payAmount);           // User inserts their coins
+                            wallet.UpdateCoinageInventory();        // After payment Updates the coins available 
                             askAgain = false;                       // in the customer's possession
                         }
                         break;
                     case 2: /*CARD*/;
                         if (card.SwipeCard(payAmount) == false)
-                        {
+                        {   // Does not swipe card
                             Console.WriteLine("Insufficient Funds");
                             askAgain = true;
                         }
                         else
-                        {
+                        {   // Cards swipes and payment is deducted
+                            // Now we dispense soda! but how :(
+                            paymentMade = true;
                             askAgain = false;
                         }
                         
@@ -92,7 +97,7 @@ namespace SodaMachine
                 }
             } while (askAgain == true);
 
-            //return paymentSelection;
+            return paymentMade;
         }
 
         public void UISelectPaymentType(double payment)

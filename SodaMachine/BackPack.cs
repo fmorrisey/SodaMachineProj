@@ -21,9 +21,15 @@ namespace SodaMachine
 
         // Member Methods
 
-        public void AddSodaToBackPack(Can can)
+        public void AddSodaToBackPack(string canSelection)
         {
-            cans.Add(can);
+            switch (canSelection)
+            {
+                case "Root Beer": cans.Add(new RootBeer()); break;
+                case "Orange Soda": cans.Add(new OrangeSoda()); break;
+                case "Cola": cans.Add(new Cola()); break;
+                default: Console.WriteLine("BACKPACK: Soda does not exist in this universe"); break;
+            }
         }
 
     }

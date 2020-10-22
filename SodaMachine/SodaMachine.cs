@@ -17,12 +17,14 @@ namespace SodaMachine
         // Member Variables
         public List<Coin> register;
         public List<Can> inventory;
+        public bool validPayment;
 
         private double registerTotalCoins;
         private int[] registerCoinage;
 
         private int[] avalibleInventory;
         private double stockTotalValue;
+        private string canSelection;
         private bool isMachineEmpty;
 
         // Properties
@@ -64,15 +66,12 @@ namespace SodaMachine
 
         }
 
-        
-
         /////////////// UI/LOGIC METHODS ///////////////
         public double UISodaSelection()
         {
-            int sodaSelection;  
             bool askAgain = true;
             double paymentAmount = 0;
-            
+            int sodaSelection;
             do
             {
                 UserInterface.Clear();
@@ -88,34 +87,38 @@ namespace SodaMachine
                             askAgain = true;
                         } else
                         {
+                            canSelection = "Root Beer";
                             paymentAmount = 0.60d; askAgain = false;
-                        } 
-                        
-                        // Ask for payment UI
-                        // Check payment
-                        // Dispense Soda
-                        break;
+                        } break;
+
                     case 2: /* Orange Soda */
                         if (avalibleInventory[1] == 0)   //check inventory
                         {
                             UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
                             askAgain = true;
                         }
-                        else { paymentAmount = 0.06d; askAgain = false; }
+                        else 
+                        {
+                            canSelection = "Orange Soda";
+                            paymentAmount = 0.06d; askAgain = false; 
+                        } break;
 
-                        break;
                     case 3: /* Cola */
                         if (avalibleInventory[2] == 0)   //check inventory
                         {
                             UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
                             askAgain = true;
                         }
-                        else { paymentAmount = 0.35d; askAgain = false; }
+                        else
+                        {
+                            canSelection = "Cola";
+                            paymentAmount = 0.35d; askAgain = false;
+                        } break;
 
-                        break;
                     case 4: /* Exit */; break;
 
                     default:
+                        Console.WriteLine("MOM I BROKE THE UNIVERSE AGAIN!");
                         break;
                 }
 
@@ -125,13 +128,28 @@ namespace SodaMachine
             return paymentAmount;
         }
 
-        public void InventoryUpdate(Can can)
+        public string DispenseSoda(bool validPayment)
         {
+            if (validPayment == false) //This double checks the payment integrity
+            {   // User will lose money but this is a "security feature" to protect inventory
+                
+            }
+            else
+            {
+                for (int i = 0; i < inventory.Count; i++)
+                {
+                    if (inventory[i].Name == canSelection)
+                    {
+                        inventory.Remove(inventory[i]);
+                        UserInterface.Pause($"{inventory[i].Name} Dispensed", 1000);
+                        break;
+                    }
+                }
+            }
+            
+            return canSelection;
 
         }
-
-        // 
-
 
         ///// INVNETORY CONTROL AND DISPENSING ///// 
 
@@ -215,6 +233,11 @@ namespace SodaMachine
             //return isPowerOn;
         }
 
+        public void UpdateSodaInventory()
+        {   /// Updates the available inventory
+            avalibleInventory = TotalSodaInventory();
+            stockTotalValue = TotalInventoryCost();
+        }
         private void FillSodaMachine(int rootBeer, int orangesoda, int cola)         // Adds Sodas to the inventory
         {
             for (int i = 0; i < rootBeer; i++) { inventory.Add(new RootBeer()); }
@@ -280,9 +303,9 @@ namespace SodaMachine
             return CoinsTotal;
         }
 
-        public void UpdateRegisterCoinage()
+        public void UpdateRegisterCoinage(double addPayment)
         {   /// After the customer/user makes payment we need to 
-            /// reconcile what is available for the next transaction
+            /// reconcile what is available for the next transaction         
             registerTotalCoins = RegisterTotal();
             registerCoinage = RegisterCoainage();
         }

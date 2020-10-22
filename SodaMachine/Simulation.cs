@@ -16,6 +16,7 @@ namespace SodaMachine
         // Member Variables
         public SodaMachine sodaMachine;
         public Customer customer;
+        private bool validPayment;
         // Ctor
         public Simulation()
         {
@@ -30,6 +31,7 @@ namespace SodaMachine
             bool askAgain = true;
             double payAmount = 0.00d;
             int paymentSelection = 0;
+            string transferCan;
 
 
             do
@@ -41,11 +43,13 @@ namespace SodaMachine
                 {
                     case 1: /* PURCHASE SODA */
                         UserInterface.Clear(); 
-                        payAmount = sodaMachine.UISodaSelection();
-                        customer.UISelectPaymentType(payAmount);
-                        customer.PaymentSelection(payAmount);
-
-
+                        payAmount = sodaMachine.UISodaSelection();  // Loads selection UI returns payment value
+                        customer.UISelectPaymentType(payAmount);    // Asks for payment type with dynamic payment value
+                        validPayment = customer.PaymentSelection(payAmount);       // User Selects payment type then asked for payment
+                        transferCan = sodaMachine.DispenseSoda(validPayment);
+                        customer.backPack.AddSodaToBackPack(transferCan);
+                        //sodaMachine.UpdateRegisterCoinage(payAmount);
+                        sodaMachine.UpdateSodaInventory();
                         askAgain = true;
                         break;
 
