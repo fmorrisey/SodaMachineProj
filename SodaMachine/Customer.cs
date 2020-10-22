@@ -15,6 +15,7 @@ namespace SodaMachine
         public Wallet wallet;
         public BackPack backPack;
         public Card card;
+
         // Ctor
         public Customer()
         {

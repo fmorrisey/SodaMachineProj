@@ -15,26 +15,55 @@ namespace SodaMachine
         // Member Variables
         public List<Coin> coins;
         public Card card;
-        private double avalibleCoinage;
+        private double totalAvaliableCoinage;
+        private int[] coinageInventory;
 
         // Properties
-        public double AvalibleCoinage
+        public double TotalAvaliableCoinage
         {
-            get { return avalibleCoinage; }                     // the get accessors returns the value 
+            get { return totalAvaliableCoinage; }                    // the get accessors returns the value 
         }
 
+        public int[] CoinageInventory
+        {
+            get { return coinageInventory; }                        // the get accessors returns the value 
+        }
 
-        // Ctor
+        // Constructor
         public Wallet()
         {
             coins = new List<Coin>();                               // coins in the customer's possession
             card = new Card();
-            FillPocketsWithCoins(5, 2, 2, 5);                       // fill the customer's pockets with coins
-            this.avalibleCoinage = WalletCoinReconciliation();      // sets the avalibleCoinage based on what's in the customer's wallet
-            Console.WriteLine($"${card.AvailableFunds} on card");   // tells the user how much is in their debt account
+            
+            FillPocketsWithCoins(12, 15, 7, 15);                    // fill the customer's pockets with coins with $5
+            
+            this.totalAvaliableCoinage = WalletCoinReconciliation();      // sets the avalibleCoinage based on what's in the customer's wallet
+            
+            
+            
+            this.coinageInventory = new int[4];                     // Initializes the private array
+            coinageInventory = TotalCoinageInventory();             // Adds the array to the public array
         }
 
         // Member Methods
+        public void CheckWallet()
+        {
+            UserInterface.MenuDecorators("star");
+            Console.WriteLine("#### WHAT IN MY WALLET? ####");
+            UserInterface.MenuDecorators("star");
+            Console.WriteLine($"Quarters: {CoinageInventory[0]}");
+            Console.WriteLine($"Dimes: {CoinageInventory[1]}");
+            Console.WriteLine($"Nickels: {CoinageInventory[2]}");
+            Console.WriteLine($"Pennies: {CoinageInventory[3]}");
+            UserInterface.MenuDecorators("star");
+            Console.WriteLine($"Wallet Coins Total: ${totalAvaliableCoinage}");
+            UserInterface.MenuDecorators("star");
+            Console.WriteLine($"${card.AvailableFunds} on card");   // tells the user how much is in their debt account
+            UserInterface.WaitForKey("Press ENTER to continue...", 500);
+            
+
+        }
+
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
             for (int i = 0; i < quarters; i++) { coins.Add(new Quarter()); }
@@ -53,10 +82,41 @@ namespace SodaMachine
             }
             CoinsTotal = Math.Round(CoinsTotal, 3);
 
-            Console.WriteLine($"Wallet Coins Total:${CoinsTotal}");
+            
             Thread.Sleep(2000);
+
             return CoinsTotal;
         }
+
+        private int[] TotalCoinageInventory()
+        {
+            foreach (Coin coin in coins)
+            {
+                switch (coin.Value)
+                {
+                    case 0.01: // Penny
+                        coinageInventory[0]++;
+                        break;
+                    case 0.05: // Nickel
+                        coinageInventory[1]++;
+                        break;
+                    case 0.10: // Dime
+                        coinageInventory[2]++;
+                        break;
+                    case 0.25: // Quarter
+                        coinageInventory[3]++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+                       
+
+            Thread.Sleep(1000);
+            return coinageInventory;
+        }
+
+
         /*
         public void AddMoney(double amountToAdd)
         {
