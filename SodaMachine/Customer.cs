@@ -17,6 +17,7 @@ namespace SodaMachine
         public Card card;
 
         public bool paymentMade;
+        public int[] coinsInHand;
 
         // Ctor
         public Customer()
@@ -52,53 +53,7 @@ namespace SodaMachine
             UserInterface.WaitForKey("Press ENTER to continue...", 500);
         }
 
-        public bool PaymentSelection(double payAmount)
-        {
-            int paymentSelection = 0;
-            bool askAgain = true;
-            do
-            {
-                paymentSelection = UserInterface.IntInputValidation("Select your payment type: ");
-                switch (paymentSelection)
-                {
-                    case 1: /*WALLET*/; askAgain = false;
-                        if (wallet.CheckCoins(payAmount) == false)  // Check Funds before payment request
-                        {
-                            Console.WriteLine("Insufficient Funds");
-                            askAgain = true;
-                        }
-                        else
-                        {                                           // Select coins and pay
-                            wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
-                            wallet.CheckCoins(payAmount);           // User inserts their coins
-                            wallet.UpdateCoinageInventory();        // After payment Updates the coins available 
-                            askAgain = false;                       // in the customer's possession
-                        }
-                        break;
-                    case 2: /*CARD*/;
-                        if (card.SwipeCard(payAmount) == false)
-                        {   // Does not swipe card
-                            Console.WriteLine("Insufficient Funds");
-                            askAgain = true;
-                        }
-                        else
-                        {   // Cards swipes and payment is deducted
-                            // Now we dispense soda! but how :(
-                            paymentMade = true;
-                            askAgain = false;
-                        }
-                        
-                        break;
-                    case 3: /*Exit*/; askAgain = false;  
-                        
-                        break;
-                    default: Console.WriteLine("Incorrect Payment option");
-                        askAgain = true; break;
-                }
-            } while (askAgain == true);
-
-            return paymentMade;
-        }
+        
 
         public void UISelectPaymentType(double payment)
         {

@@ -89,6 +89,7 @@ namespace SodaMachine
                 Thread.Sleep(milliseconds);
             }
         }
+                
 
         public static void BlinkerSingle(string text, int blinkNum, int milliseconds)
         {

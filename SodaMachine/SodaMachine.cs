@@ -55,7 +55,7 @@ namespace SodaMachine
 
             inventory = new List<Can>();    // can object collection
             FillSodaMachine(20, 20, 20);    // fills the soda machine inventory
-            
+
             this.avalibleInventory = TotalSodaInventory();
             this.stockTotalValue = TotalInventoryCost();
 
@@ -97,10 +97,10 @@ namespace SodaMachine
                             UserInterface.WaitForKey("Not Enough In Stock, pick again:", 500);
                             askAgain = true;
                         }
-                        else 
+                        else
                         {
                             canSelection = "Orange Soda";
-                            paymentAmount = 0.06d; askAgain = false; 
+                            paymentAmount = 0.06d; askAgain = false;
                         } break;
 
                     case 3: /* Cola */
@@ -123,7 +123,7 @@ namespace SodaMachine
                 }
 
             } while (askAgain == true);
-            
+
             Math.Round(paymentAmount, 3);
             return paymentAmount;
         }
@@ -165,7 +165,7 @@ namespace SodaMachine
         {
             if (validPayment == false) //This double checks the payment integrity
             {   // User will lose money but this is a "security feature" to protect inventory
-                
+
             }
             else
             {
@@ -179,9 +179,16 @@ namespace SodaMachine
                     }
                 }
             }
-            
+
             return canSelection;
 
+        }
+
+        public bool MakeTransaction(int[])
+        {
+
+            
+            return validPayment;
         }
 
         private int[] TotalSodaInventory()
