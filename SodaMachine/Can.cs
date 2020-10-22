@@ -19,7 +19,7 @@ namespace SodaMachine
         // Ctor
         public Can()
         {
-
+            this.cost = Math.Round(cost, 2);
         }
 
         // Member Methods

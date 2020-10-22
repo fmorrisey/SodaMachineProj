@@ -34,7 +34,7 @@ namespace SodaMachine
         {   //DRAWS MENU SODA SELECTION
             Console.WriteLine($"##### SODA MACHINE ##### \n" +
                               "Pick you favorite beverage \n" +
-                             $"    [1] Root Beer \n" +
+                             $"    [1] Root Beer |  \n" +
                              $"    [2] Orange Soda \n" +
                              $"    [3] Cola \n\n" +
                               "    \n" +

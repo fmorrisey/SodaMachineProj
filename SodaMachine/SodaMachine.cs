@@ -17,15 +17,21 @@ namespace SodaMachine
         // Member Variables
         public List<Coin> register;
         public List<Can> inventory;
-        private int[] sodaInventoryCount;
-        public bool isMachineEmpty;
+
+        private int[] avalibleInventory;
+        private double stockTotalValue;
+        private bool isMachineEmpty;
 
         // Properties
         public int[] AvalibleInventory
         {
-            get { return sodaInventoryCount; }
+            get { return avalibleInventory; }
         }
-        
+        public double StockTotalValue
+        {
+            get { return stockTotalValue; }
+        }
+
         // Ctor
         public SodaMachine()
         {
@@ -35,11 +41,27 @@ namespace SodaMachine
             inventory = new List<Can>();    // can object collection
             FillSodaMachine(20, 20, 20);    // fills the soda machine inventory
             
-            this.sodaInventoryCount = TotalSodaInentory();
-            
+            this.avalibleInventory = TotalSodaInventory();
+            this.stockTotalValue = TotalInventoryCost();
+
+
         }
 
         /////////////// Selection Methods ///////////////
+
+        public bool IsMachineEmpty()
+        {
+            if (inventory.Count == 0)
+            {
+                isMachineEmpty = true;
+            }
+            else
+            {
+                isMachineEmpty = false;
+            }
+
+            return isMachineEmpty;
+        }
 
         public void SodaSelection()
         {
@@ -50,38 +72,49 @@ namespace SodaMachine
         public void CheckSodaInventory()
         {
             UserInterface.MenuDecorators("star");
-            Console.WriteLine($"Root Beer: {sodaInventoryCount[0]} \n" +
-                                $"Orange Soda: {sodaInventoryCount[1]} \n" +
-                                $"Cola: {sodaInventoryCount[2]}");
+            Console.WriteLine($"Root Beer: {AvalibleInventory[0]} \n" +
+                                $"Orange Soda: {AvalibleInventory[1]} \n" +
+                                $"Cola: {AvalibleInventory[2]}");
             UserInterface.MenuDecorators("star");
+            Console.WriteLine($"Total Inventory is: ${StockTotalValue}");
             UserInterface.WaitForKey("Press ENTER to return to menu...", 500);
         }
 
         /////////////// MEMBER METHODS ///////////////
 
-        private int[] TotalSodaInentory()
+        private int[] TotalSodaInventory()
         {
-            sodaInventoryCount = new int[3];
-
+            avalibleInventory = new int[3];
+            
             foreach (Can can in inventory)
             {
                 switch (can.Name)
                 {
                     case "Root Beer":
-                        sodaInventoryCount[0]++;
+                        avalibleInventory[0]++;
                         break;
                     case "Orange Soda":
-                        sodaInventoryCount[1]++;
+                        avalibleInventory[1]++;
                         break;
                     case "Cola":
-                        sodaInventoryCount[2]++;
+                        avalibleInventory[2]++;
                         break;
                     default:
                         break;
                 }
             }
             
-            return sodaInventoryCount;
+            return avalibleInventory;
+        }
+
+        private double TotalInventoryCost()
+        {
+            for (int i = 0; i < inventory.Count; i++)
+            {
+                stockTotalValue += inventory[i].Cost;
+            }
+            stockTotalValue = Math.Round(stockTotalValue, 2); 
+            return stockTotalValue;
         }
 
         public void IsPowerOn(bool isPowerOn)                                       //Powers on the soda machine (has no real functionality)
@@ -96,6 +129,7 @@ namespace SodaMachine
             for (int i = 0; i < orangesoda; i++) { inventory.Add(new OrangeSoda()); }
             for (int i = 0; i < rootBeer; i++) { inventory.Add(new RootBeer()); }
             for (int i = 0; i < cola; i++) { inventory.Add(new Cola()); }
+            isMachineEmpty = false;
         }
 
         private void FillRegister(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
