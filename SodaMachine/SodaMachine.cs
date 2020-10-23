@@ -52,6 +52,7 @@ namespace SodaMachine
         {
             register = new List<Coin>();    // coin object collection
             FillRegister(20, 10, 20, 50);   // fill the register with coins
+            //FillRegister(20, 00, 00, 00);   // fill the register with coins
 
             inventory = new List<Can>();    // can object collection
             FillSodaMachine(20, 20, 20);    // fills the soda machine inventory
@@ -276,57 +277,120 @@ namespace SodaMachine
             {
                 if (coin.Name == coinName)
                 {
+                    register.Remove(coin);
                     return true;
                 }
             }
             return false;
         }
 
-        public List<Coin> MakeChange(double changeDue)
+        private List<Coin> MakeChange(double changeDue)
         {
-            bool loopAgain;
+            
             List<Coin> OOTFP; //Out of the frying pan
             OOTFP = new List<Coin>();
             while (changeDue > 0)
             {
-                if (RegisterContains("Quarter") && changeDue > 0.25)
+                if (RegisterContains("Quarter") && changeDue >= 0.25)
                 {
-                    // IF REG Quarter if change due is >25
+                    OOTFP.Add(new Quarter());
+                    changeDue -= 0.25;
+                    changeDue = Math.Round(changeDue, 2);
                 }
-                else if (RegisterContains("Dime") && changeDue > 0.10)
+                else if (RegisterContains("Dime") && changeDue >= 0.10)
                 {
-                    // IF REG Dime if change due is >25
-
+                    OOTFP.Add(new Dime());
+                    changeDue -= 0.10;
+                    changeDue = Math.Round(changeDue, 2);
                 }
-                else if (RegisterContains("Nickel") && changeDue > 0.05)
+                else if (RegisterContains("Nickel") && changeDue >= 0.05)
                 {
-                    // IF REG Nickel if change due is >25
-
+                    OOTFP.Add(new Nickle());
+                    changeDue -= 0.05;
+                    changeDue = Math.Round(changeDue, 2);
                 }
-                else if (RegisterContains("Penny") && changeDue > 0.01)
+                else if (RegisterContains("Penny") && changeDue >= 0.01)
                 {
-                    // IF REG Penny if change due is >25
-
+                    OOTFP.Add(new Penny());
+                    changeDue -= 0.01;
+                    changeDue = Math.Round(changeDue, 2);
                 }
-                else
+                else if (changeDue == 0.00)
                 {
-                    Console.WriteLine("MOM WE BROKE THE INTERNENT AGAIN!!!");
+                    changeDue = Math.Round(changeDue, 2);
                 }
             }
 
             return OOTFP; // Into the fire
         }
 
-        public bool MakeTransaction(List<Coin> coins)
+        private void AddToRegister(List<Coin> coins)
         {
-
             foreach (Coin coin in coins) // Coins in hand
             {
                 register.Add(coin);
-                validPayment = true;
+               
             }
 
-            return validPayment;
+        }
+
+        private double ValueConverter(List<Coin> coins)
+        {
+            double coinValue = 0;
+            for (int i = 0; i < coins.Count; i++)
+            {
+                coinValue += coins[i].Value;
+            }
+             return coinValue;
+        }
+
+        private double FindRemainder(double coinValue)
+        {
+            double changeDue = 0;
+            if (canSelection == "Root Beer")
+            {
+                changeDue = coinValue -= 0.60;
+                return changeDue = Math.Round(changeDue, 2);
+
+            }
+            else if (canSelection == "Orange Soda")
+            {
+                changeDue = coinValue -= 0.06;
+                return changeDue = Math.Round(changeDue, 2);
+            }
+            else if (canSelection == "Cola")
+            {
+                changeDue = coinValue -= 0.35;
+                return changeDue = Math.Round(changeDue, 2);
+            } else
+            {
+                return changeDue = Math.Round(changeDue, 2);
+            }
+        }
+
+        private void RemoveChange(List<Coin> coins)
+        {
+            foreach (Coin coin in coins) // Coins in hand
+            {
+                register.Remove(coin);
+                
+            }
+        }
+
+        public List<Coin> MakeTransaction(List<Coin> coins)
+        {
+            List<Coin> OOTFP; //Out of the frying pan
+            OOTFP = new List<Coin>();
+            double coinValue = 0;
+            double changeDue = 0;
+
+            coinValue = ValueConverter(coins);
+            AddToRegister(coins);
+            changeDue = FindRemainder(coinValue);
+            OOTFP = MakeChange(changeDue);
+            RemoveChange(OOTFP);
+            
+            return OOTFP;
         }
 
         private void FillRegister(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
@@ -350,7 +414,7 @@ namespace SodaMachine
             return registerTotal;
         }
 
-        public void UpdateRegisterCoinage(bool validPayment)
+        public void UpdateRegisterCoinage()
         {   /// After the customer/user makes payment we need to 
             /// reconcile what is available for the next transaction         
             registerTotalCoins = RegisterTotal();
@@ -374,6 +438,7 @@ namespace SodaMachine
         private int[] CreateRegisterCoainage()
         {   /// Creates an array of the number of individual coins
             /// available to the customer/user ex; 7 Quarters
+            /// Also rebuilds array after transaction
             Array.Clear(registerCoinage, 0, 4);
             foreach (Coin coin in register)
             {
@@ -399,7 +464,6 @@ namespace SodaMachine
            
             return registerCoinage;
         }
-
 
     }
 }

@@ -99,6 +99,7 @@ namespace SodaMachine
 
             do
             {
+                
                 UICoinPayment(paymentAmount);
                 UICoinSelection(transferCoins);
                 coinSelection = UserInterface.IntInputValidation("Select your coins:");
@@ -150,9 +151,18 @@ namespace SodaMachine
                 }
 
             } while (finishedSelection != true); //ask again until user is finished
-                
+            TakeOutOfWallet(hands);    
             return hands;
 
+        }
+
+        private void TakeOutOfWallet(List<Coin> coinsHands)
+        {
+            foreach (Coin coin in coinsHands) // Coins in hand
+            {
+                coins.Remove(coin);
+            }
+         
         }
 
         //////////////////// FUNCTIONAL UTLILTIES //////////////////////
@@ -176,7 +186,6 @@ namespace SodaMachine
                 sufficientFunds = true;
                 return sufficientFunds;
             }
-
         }
 
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
@@ -187,6 +196,14 @@ namespace SodaMachine
             for (int i = 0; i < pennies; i++) { coins.Add(new Penny()); }
         }
 
+        public void ChangeReturn(List<Coin> coinsReturn) // Adds coins to the register
+        {
+            foreach (Coin coin in coinsReturn)
+            {
+                coins.Add(coin);
+            }
+        }
+
         private double WalletCoinReconciliation()
         {
             double CoinsTotal = 0.0;
@@ -195,44 +212,24 @@ namespace SodaMachine
             {
                 CoinsTotal += coins[i].Value;
             }
-            
+            CoinsTotal = Math.Round(CoinsTotal, 2);
             return CoinsTotal;
         }
 
-        private void UpdateWallet()
-        {
-            foreach (Coin coin in hands)
-            {
-
-                for (int i = 0; i < coins.Count; i++)
-                {
-                    if (coin.Name == coins[i].Name)
-                    {
-                        coins.Remove(coins[i]);
-                        break;
-                    }
-                }
-            }
-
-        }
-
-        public void UpdateCoinageInventory(bool validPayment)
+        public void UpdateCoinageInventory()
         {   /// After the customer/user makes payment we need to 
             /// reconcile what is available for the next transaction
-            if (validPayment == true)
-            {
-                Array.Copy(UICoinInventory, coinageInventory, 4);
-                UpdateWallet();
-                totalAvaliableCoinage = WalletCoinReconciliation();
-            }
 
+            coinageInventory = CreateCoinageInventory();
+            totalAvaliableCoinage = WalletCoinReconciliation();
 
         }
 
         private int[] CreateCoinageInventory()
         {   /// Creates an array of the number of individual coins
             /// available to the customer/user ex; 7 Quarters
-
+            /// Also Rebuilds array after transaction
+            Array.Clear(coinageInventory,0,4);
             foreach (Coin coin in coins)
             {
                 switch (coin.Value)

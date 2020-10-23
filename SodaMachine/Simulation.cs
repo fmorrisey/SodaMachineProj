@@ -27,7 +27,6 @@ namespace SodaMachine
         {
             sodaMachine = new SodaMachine(); // SodaMachine Object exists here.
             customer = new Customer(); // Customer object, with it's wallet, coins, card, and backpack exists here.
-            SelectMainMenu();
             handsTransfer = new List<Coin>();
             HoldTransfer = new int[4]; //Transfer Array to pass coins between the customer and the machine
         }
@@ -58,14 +57,17 @@ namespace SodaMachine
                         if (checkMachineREG == true)
                         {
                             validPayment = SelectPayment(payAmount);    // User Selects payment type then asked for payment
-                                                                        // After Card/Coin payment is correct //
-                            transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
-                            customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
+                                                                       // After Card/Coin payment is correct //
                             
-                            sodaMachine.UpdateRegisterCoinage(validPayment);      // Updates the SodaMachine
-                            sodaMachine.UpdateSodaInventory();
-
-                            customer.wallet.UpdateCoinageInventory(validPayment); // After payment Updates the coins available 
+                            if (validPayment == true)
+                            {
+                                transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
+                                customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
+                                sodaMachine.UpdateRegisterCoinage();      // Updates the SodaMachine
+                                sodaMachine.UpdateSodaInventory();
+                                customer.wallet.UpdateCoinageInventory(); // After payment Updates the coins available 
+                            }
+                            
                             askAgain = true;
                         }
                         else
@@ -124,10 +126,9 @@ namespace SodaMachine
                             customer.wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
                             customer.wallet.CheckCoins(payAmount);           // User inserts their coins
                             handsTransfer = customer.wallet.TransferCoins(payAmount);
-                                                    
-                            
-                            customer.paymentMade = sodaMachine.MakeTransaction(handsTransfer);
-                                                       
+                            handsTransfer = sodaMachine.MakeTransaction(handsTransfer);
+                            customer.paymentMade = true;
+                            customer.wallet.ChangeReturn(handsTransfer);                           
                             askAgain = false;                       // in the customer's possession
                         }
                         break;

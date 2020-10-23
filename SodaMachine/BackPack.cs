@@ -13,6 +13,7 @@ namespace SodaMachine
     {
         // Member Variables
         public List<Can> cans;
+
         // Ctor
         public BackPack()
         {
