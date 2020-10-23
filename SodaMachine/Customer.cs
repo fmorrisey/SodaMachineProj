@@ -52,9 +52,7 @@ namespace SodaMachine
             Console.WriteLine($"${displayValue} on card");   // tells the user how much is in their debt account
             UserInterface.WaitForKey("Press ENTER to continue...", 500);
         }
-
         
-
         public void UISelectPaymentType(double payment)
         {
             string displayPayment = Math.Round(payment, 3).ToString("0.00");

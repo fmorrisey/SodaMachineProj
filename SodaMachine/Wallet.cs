@@ -12,13 +12,14 @@ namespace SodaMachine
     {
         // Member Variables
         public List<Coin> coins;
+        public List<Coin> hands;
         public Card card;
         private double totalAvaliableCoinage;
         private int[] coinageInventory;
 
         public double coinSelectionTotal;
         public int[] transferCoins;
-        
+
 
         // Properties
         public double TotalAvaliableCoinage
@@ -44,6 +45,7 @@ namespace SodaMachine
         {
             coins = new List<Coin>();                               // coins in the customer's possession
             card = new Card();
+            hands = new List<Coin>();
 
             FillPocketsWithCoins(12, 15, 7, 15);                    // fill the customer's pockets with coins with $5
             //FillPocketsWithCoins(1, 1, 1, 0);                    // fill the customer's pockets with coins with $5
@@ -51,7 +53,7 @@ namespace SodaMachine
             this.totalAvaliableCoinage = WalletCoinReconciliation();// sets the avalibleCoinage based on what's in the customer's wallet
 
             this.coinageInventory = new int[4];                     // Initializes the private array
-            coinageInventory = CreateCoinageInventory();             // Adds the array to the public array
+            coinageInventory = CreateCoinageInventory();            // Adds the array to the public array
             this.UICoinInventory = new int[4];
         }
 
@@ -78,7 +80,7 @@ namespace SodaMachine
             UserInterface.MenuDecorators("starlong");
 
         }
-        
+
         public void UICoinSelection(int[] CoinsInHand)
         {
             string displayCoin = Math.Round(coinSelectionTotal, 3).ToString("0.00");
@@ -91,7 +93,6 @@ namespace SodaMachine
         {
             double coinSelection = 0;
             coinSelectionTotal = 0;
-            
             bool finishedSelection = false;
             transferCoins = new int[4];
             Array.Copy(coinageInventory, UICoinInventory, 4);
@@ -108,32 +109,39 @@ namespace SodaMachine
                         transferCoins[0]++;
                         UICoinInventory[0]--;
                         coinSelectionTotal += 0.25;
+                        hands.Add(new Quarter());
+                        
                         break;
 
                     case 2: // add dime to hand
                         transferCoins[1]++;
                         UICoinInventory[1]--;
                         coinSelectionTotal += 0.10;
+                        hands.Add(new Dime());
                         break;
 
                     case 3: // add nickel to hand
                         transferCoins[2]++;
                         UICoinInventory[2]--;
                         coinSelectionTotal += 0.05;
+                        hands.Add(new Nickle());
                         break;
 
                     case 4: // add penny to hand
                         transferCoins[3]++;
                         UICoinInventory[3]--;
                         coinSelectionTotal += 0.01;
+                        hands.Add(new Penny());
                         break;
 
                     case 5: // saves selection
-                        finishedSelection = true;                       
+                        finishedSelection = true;
+                        //hands = hands.OrderByDescending(o => o.Value).ToList();
                         break;
 
                     case 6: // cancels transaction
                         Array.Clear(transferCoins, 0, transferCoins.Length);
+                        hands.Clear();
                         finishedSelection = true;
                         break;
                     default:
@@ -142,15 +150,16 @@ namespace SodaMachine
                 }
 
             } while (finishedSelection != true); //ask again until user is finished
-
+                
             return transferCoins;
-            
+
         }
 
         //////////////////// FUNCTIONAL UTLILTIES //////////////////////
         /// These methods control wallet functions and payment handling
         public bool CheckCoins(double EnoughCoins)
         {   // Checks before transaction for sufficient funds
+
             bool sufficientFunds;
             if (totalAvaliableCoinage <= 0) // If you're broke that's a nope
             {
@@ -170,8 +179,6 @@ namespace SodaMachine
 
         }
 
-
-
         private void FillPocketsWithCoins(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
             for (int i = 0; i < quarters; i++) { coins.Add(new Quarter()); }
@@ -188,29 +195,44 @@ namespace SodaMachine
             {
                 CoinsTotal += coins[i].Value;
             }
-            CoinsTotal = Math.Round(CoinsTotal, 3);
-
-
-
+            
             return CoinsTotal;
+        }
+
+        private void UpdateWallet()
+        {
+            foreach (Coin coin in hands)
+            {
+
+                for (int i = 0; i < coins.Count; i++)
+                {
+                    if (coin.Name == coins[i].Name)
+                    {
+                        coins.Remove(coins[i]);
+                        break;
+                    }
+                }
+            }
+
         }
 
         public void UpdateCoinageInventory(bool validPayment)
         {   /// After the customer/user makes payment we need to 
             /// reconcile what is available for the next transaction
-            totalAvaliableCoinage = WalletCoinReconciliation();
-
             if (validPayment == true)
             {
                 Array.Copy(UICoinInventory, coinageInventory, 4);
+                UpdateWallet();
+                totalAvaliableCoinage = WalletCoinReconciliation();
             }
-            
+
+
         }
 
         private int[] CreateCoinageInventory()
         {   /// Creates an array of the number of individual coins
             /// available to the customer/user ex; 7 Quarters
-            
+
             foreach (Coin coin in coins)
             {
                 switch (coin.Value)
@@ -233,6 +255,6 @@ namespace SodaMachine
             }
             return coinageInventory;
         }
-        
+
     }
 }

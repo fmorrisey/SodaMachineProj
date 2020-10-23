@@ -62,7 +62,7 @@ namespace SodaMachine
             this.registerTotalCoins = RegisterTotal();// sets the avalibleCoinage based on what's in the customer's wallet
 
             this.registerCoinage = new int[4];                // Initializes the private array
-            registerCoinage = RegisterCoainage();             // Adds the array to the public array
+            registerCoinage = CreateRegisterCoainage();             // Adds the array to the public array
 
         }
 
@@ -184,10 +184,10 @@ namespace SodaMachine
 
         }
 
-        public bool MakeTransaction(int[])
+        public bool MakeTransaction(int[] transferPayment)
         {
 
-            
+            validPayment = true;
             return validPayment;
         }
 
@@ -283,11 +283,15 @@ namespace SodaMachine
             return registerTotal;
         }
 
-        public void UpdateRegisterCoinage()
+        public void UpdateRegisterCoinage(bool validPayment)
         {   /// After the customer/user makes payment we need to 
             /// reconcile what is available for the next transaction         
             registerTotalCoins = RegisterTotal();
-            registerCoinage = RegisterCoainage();
+
+            if (true)
+            {
+
+            }
         }
         private double RegisterTotal()
         {
@@ -303,7 +307,7 @@ namespace SodaMachine
         }
 
 
-        private int[] RegisterCoainage()
+        private int[] CreateRegisterCoainage()
         {   /// Creates an array of the number of individual coins
             /// available to the customer/user ex; 7 Quarters
             foreach (Coin coin in register)

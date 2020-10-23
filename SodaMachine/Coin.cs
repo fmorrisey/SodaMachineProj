@@ -16,10 +16,7 @@ namespace SodaMachine
         public double Value { get => value; }
         public string Name;
         // Ctor
-        public Coin()
-        {
-
-        }
+        
 
         // Member Methods
     }
