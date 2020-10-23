@@ -52,7 +52,7 @@ namespace SodaMachine
         {
             register = new List<Coin>();    // coin object collection
             FillRegister(20, 10, 20, 50);   // fill the register with coins
-            //FillRegister(0, 00, 00, 5);   // fill the register with coins
+            // FillRegister(0, 00, 00, 5);   // fill the register with coins
 
             inventory = new List<Can>();    // can object collection
             FillSodaMachine(20, 20, 20);    // fills the soda machine inventory

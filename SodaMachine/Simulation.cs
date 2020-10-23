@@ -52,28 +52,18 @@ namespace SodaMachine
                         UserInterface.Clear();
                         payAmount = sodaMachine.UISodaSelection();  // Loads selection UI returns payment value
                         customer.UISelectPaymentType(payAmount);    // Asks for payment type with dynamic payment value
-                        checkMachineREG = sodaMachine.CheckRegister(payAmount);
                         
-                        if (checkMachineREG == true)
-                        {
-                            validPayment = SelectPayment(payAmount);    // User Selects payment type then asked for payment
+                        validPayment = SelectPayment(payAmount);    // User Selects payment type then asked for payment
                             
-                            if (validPayment == true)
-                            {
-                                transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
-                                customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
-                                sodaMachine.UpdateRegisterCoinage();      // Updates the SodaMachine
-                                sodaMachine.UpdateSodaInventory();
-                                customer.wallet.UpdateCoinageInventory(); // After payment Updates the coins available 
-                            }
-                            
-                            askAgain = true;
-                        }
-                        else
+                        if (validPayment == true)
                         {
-                            UserInterface.Pause("Machine Has Insufficient Change", 800);
-                            askAgain = true;
+                            transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
+                            customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
+                            sodaMachine.UpdateRegisterCoinage();      // Updates the SodaMachine
+                            sodaMachine.UpdateSodaInventory();
+                            customer.wallet.UpdateCoinageInventory(); // After payment Updates the coins available 
                         }
+                            
                         
                         break;
 
@@ -111,48 +101,59 @@ namespace SodaMachine
             bool askAgain = true;
             bool checkChange = false;
             bool shortChange = false;
-
+            bool checkMachineREG;
 
             do
             {
-
                 customer.UISelectPaymentType(AmountDue);
                 paymentSelection = UserInterface.IntInputValidation("Select your payment type: ");
                 switch (paymentSelection)
                 {
+                    
                     case 1: /*WALLET*/
-                        if (customer.wallet.CheckCoins(AmountDue) == false)  // Check Funds before payment request
+                        checkMachineREG = sodaMachine.CheckRegister(AmountDue);
+                        if (checkMachineREG == true)
                         {
-                            Console.WriteLine("Insufficient Funds");
-                            askAgain = true;
+                            if (customer.wallet.CheckCoins(AmountDue) == false)  // Check Funds before payment request
+                            {
+                                Console.WriteLine("Insufficient Funds");
+                                askAgain = true;
+                            }
+                            else
+                            {                                           // Select coins and pay
+                                checkChange = customer.wallet.CheckCoins(AmountDue);           // User inserts their coins
+                                if (checkChange == true)
+                                {
+                                    customer.wallet.UICoinPayment(AmountDue);        // Displays dynamic payment selection
+                                    handsTransfer = customer.wallet.TransferCoins(AmountDue);
+                                    shortChange = ShortChange(AmountDue);
+                                    if (shortChange == false)
+                                    {
+                                        customer.wallet.WalletContains(handsTransfer);
+                                        handsTransfer = sodaMachine.MakeTransaction(handsTransfer);
+                                        customer.paymentMade = true;
+                                        customer.wallet.ChangeReturn(handsTransfer);
+                                        askAgain = false;
+                                    }
+                                    else
+                                    {
+                                        UserInterface.Pause("Not Enough Change", 800);
+                                        askAgain = true;
+                                    }
+                                }
+                                else { askAgain = true; }
+                            }
+                            
                         }
                         else
-                        {                                           // Select coins and pay
-                            checkChange = customer.wallet.CheckCoins(AmountDue);           // User inserts their coins
-                            if (checkChange == true)
-                            {
-                                customer.wallet.UICoinPayment(AmountDue);        // Displays dynamic payment selection
-                                handsTransfer = customer.wallet.TransferCoins(AmountDue);
-                                shortChange = ShortChange(AmountDue);
-                                if (shortChange == false)
-                                {
-                                    customer.wallet.WalletContains(handsTransfer);
-                                    handsTransfer = sodaMachine.MakeTransaction(handsTransfer);
-                                    customer.paymentMade = true;
-                                    customer.wallet.ChangeReturn(handsTransfer);
-                                    askAgain = false;
-                                } else 
-                                {
-                                    UserInterface.Pause("Not Enough Change", 800);
-                                    askAgain = true; 
-                                }
-                            }
-                            else { askAgain = true; }
+                        {
+                            UserInterface.Pause("Machine Has Insufficient Change", 800);
+                            askAgain = true;
                         }
                         break;
 
                     case 2: /*CARD*/
-                        ;
+                        
                         if (customer.card.SwipeCard(AmountDue) == false)
                         {   // Does not swipe card
                             Console.WriteLine("Insufficient Funds");
