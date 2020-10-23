@@ -126,6 +126,7 @@ namespace SodaMachine
                             customer.wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
                             customer.wallet.CheckCoins(payAmount);           // User inserts their coins
                             handsTransfer = customer.wallet.TransferCoins(payAmount);
+                            customer.wallet.WalletContains(handsTransfer);
                             handsTransfer = sodaMachine.MakeTransaction(handsTransfer);
                             customer.paymentMade = true;
                             customer.wallet.ChangeReturn(handsTransfer);                           

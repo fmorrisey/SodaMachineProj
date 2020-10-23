@@ -35,9 +35,7 @@ namespace SodaMachine
                               "Pick you favorite beverage \n" +
                              $"  [1] Root Beer | $0.60 \n" +
                              $"  [2] Orange Soda |$0.06 \n" +
-                             $"  [3] Cola | $0.35 \n\n" +
-                              "    \n" +
-                              "  [4] Exit \n");
+                             $"  [3] Cola | $0.35 \n\n");
             MenuDecorators("hashlong");
             
         }

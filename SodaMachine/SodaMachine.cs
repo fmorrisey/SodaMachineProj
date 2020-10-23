@@ -60,7 +60,7 @@ namespace SodaMachine
             this.avalibleInventory = TotalSodaInventory();
             this.stockTotalValue = TotalInventoryCost();
 
-            this.registerTotalCoins = RegisterTotal();// sets the avalibleCoinage based on what's in the customer's wallet
+            this.registerTotalCoins = RegisterTotal();  // sets the avalibleCoinage based on what's in the customer's wallet
 
             this.registerCoinage = new int[4];                // Initializes the private array
             registerCoinage = CreateRegisterCoainage();             // Adds the array to the public array

@@ -33,13 +33,7 @@ namespace SodaMachine
         }
 
         public int[] UICoinInventory;                       //UI element that modifies a temporay array
-        /*
-        {
-            get { return coinageInventory;}
-            set { Array.Copy(coinageInventory, UICoinInventory, 4); }
-        }*/
-
-
+        
         // Constructor
         public Wallet()
         {
@@ -151,18 +145,32 @@ namespace SodaMachine
                 }
 
             } while (finishedSelection != true); //ask again until user is finished
-            TakeOutOfWallet(hands);    
+              
             return hands;
 
         }
 
-        private void TakeOutOfWallet(List<Coin> coinsHands)
+        public void WalletContains(List<Coin> coinsInHand)
         {
-            foreach (Coin coin in coinsHands) // Coins in hand
+            string coinName = "";
+            for (int i = 0; i < coinsInHand.Count; i++)
             {
-                coins.Remove(coin);
+                coinName = coinsInHand[i].Name;
+                SearchWallet(coinName);
+            }         
+        }
+
+        private bool SearchWallet(string coinName)
+        {
+            foreach (Coin coin in coins) // Coins in hand
+            {
+                if (coin.Name == coinName)
+                {
+                    coins.Remove(coin);
+                    return true;
+                }
             }
-         
+            return false;
         }
 
         //////////////////// FUNCTIONAL UTLILTIES //////////////////////
