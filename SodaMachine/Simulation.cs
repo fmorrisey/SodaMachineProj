@@ -33,6 +33,7 @@ namespace SodaMachine
         }
         // Member Methods
 
+        
         public void SelectMainMenu()
         {
             bool askAgain = true;
@@ -60,16 +61,16 @@ namespace SodaMachine
                                                                         // After Card/Coin payment is correct //
                             transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
                             customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
-
+                            
                             sodaMachine.UpdateRegisterCoinage(validPayment);      // Updates the SodaMachine
                             sodaMachine.UpdateSodaInventory();
 
                             customer.wallet.UpdateCoinageInventory(validPayment); // After payment Updates the coins available 
-                            askAgain = false;
+                            askAgain = true;
                         }
                         else
                         {
-                            askAgain = true;
+                            Console.WriteLine("Not Enough Money in the Machine");
                         }
                         
                         break;
@@ -81,6 +82,7 @@ namespace SodaMachine
                         break;
 
                     case 3: /* CHECK BACKPACK METHOD */
+                        customer.backPack.UIDisplayBackPack();
                         askAgain = true;
                         break;
 
@@ -99,8 +101,8 @@ namespace SodaMachine
 
             } while (askAgain == true);
 
-
         }
+        
         public bool SelectPayment(double payAmount)
         {
             int paymentSelection = 0;
@@ -122,9 +124,10 @@ namespace SodaMachine
                             customer.wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
                             customer.wallet.CheckCoins(payAmount);           // User inserts their coins
                             handsTransfer = customer.wallet.TransferCoins(payAmount);
+                                                    
+                            
                             customer.paymentMade = sodaMachine.MakeTransaction(handsTransfer);
-                            
-                            
+                                                       
                             askAgain = false;                       // in the customer's possession
                         }
                         break;

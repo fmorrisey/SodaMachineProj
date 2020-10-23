@@ -32,5 +32,27 @@ namespace SodaMachine
             }
         }
 
+        public void UIDisplayBackPack()
+        {
+            UserInterface.Clear();
+            if (cans.Count == 0)
+            {
+                Console.WriteLine("You gotta buy some soda bud!");
+            }
+            else
+            {
+                Console.WriteLine("You have: ");
+                UserInterface.MenuDecorators("star");
+                foreach (Can can in cans)
+                {
+                    Console.WriteLine($"{can.Name}");
+                }
+                UserInterface.MenuDecorators("star");
+            }
+            
+            
+            UserInterface.WaitForKey("Return to main menu", 1000);
+        }
+
     }
 }

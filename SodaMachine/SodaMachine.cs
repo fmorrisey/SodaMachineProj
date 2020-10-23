@@ -184,85 +184,6 @@ namespace SodaMachine
 
         }
 
-        public bool CheckRegister(double coins)
-        {
-            bool sufficientFunds;
-            if (registerTotalCoins <= 0) // If you're broke that's a nope
-            {
-                sufficientFunds = false;
-                return sufficientFunds;
-            }
-            else if (registerTotalCoins < coins)
-            { // If you have the coins, but not enough for the product
-                sufficientFunds = false; // That'll be a No Dog
-                return sufficientFunds;
-            }
-            else
-            {   // If you have enough make payment
-                sufficientFunds = true;
-                return sufficientFunds;
-            }
-        }
-
-        public bool RegisterContains(string coinName)
-        {
-            foreach (Coin coin in register)
-            {
-                if (coin.Name == coinName)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public List<Coin> MakeChange(double changeDue)
-        {
-            bool loopAgain;
-            List<Coin> OOTFP; //Out of the frying pan
-            OOTFP = new List<Coin>();
-            while (changeDue > 0)
-            {
-                if (RegisterContains("Quarter") && changeDue > 0.25)
-                {
-                    // IF REG Quarter if change due is >25
-                }
-                else if (RegisterContains("Dime") && changeDue > 0.10)
-                {
-                    // IF REG Dime if change due is >25
-
-                }
-                else if (RegisterContains("Nickel") && changeDue > 0.05)
-                {
-                    // IF REG Nickel if change due is >25
-
-                }
-                else if (RegisterContains("Penny") && changeDue > 0.01)
-                {
-                    // IF REG Penny if change due is >25
-
-                }
-                else
-                {
-                    Console.WriteLine("MOM WE BROKE THE INTERNENT AGAIN!!!");
-                }
-            }
-            
-            return OOTFP; // Into the fire
-        }
-
-        public bool MakeTransaction(List<Coin> coins)
-        {
-            
-            foreach (Coin coin in coins) // Coins in hand
-            {
-                register.Add(coin);
-                validPayment = true;
-            }
-            
-            return validPayment;
-        }
-
         private int[] TotalSodaInventory()
         {
             avalibleInventory = new int[3];
@@ -329,6 +250,85 @@ namespace SodaMachine
 
         ///// REGISTER CONTROL AND RECONCILIATION ///// 
 
+        public bool CheckRegister(double coins)
+        {
+            bool sufficientFunds;
+            if (registerTotalCoins <= 0) // If you're broke that's a nope
+            {
+                sufficientFunds = false;
+                return sufficientFunds;
+            }
+            else if (registerTotalCoins < coins)
+            { // If you have the coins, but not enough for the product
+                sufficientFunds = false; // That'll be a No Dog
+                return sufficientFunds;
+            }
+            else
+            {   // If you have enough make payment
+                sufficientFunds = true;
+                return sufficientFunds;
+            }
+        }
+
+        public bool RegisterContains(string coinName)
+        {
+            foreach (Coin coin in register)
+            {
+                if (coin.Name == coinName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<Coin> MakeChange(double changeDue)
+        {
+            bool loopAgain;
+            List<Coin> OOTFP; //Out of the frying pan
+            OOTFP = new List<Coin>();
+            while (changeDue > 0)
+            {
+                if (RegisterContains("Quarter") && changeDue > 0.25)
+                {
+                    // IF REG Quarter if change due is >25
+                }
+                else if (RegisterContains("Dime") && changeDue > 0.10)
+                {
+                    // IF REG Dime if change due is >25
+
+                }
+                else if (RegisterContains("Nickel") && changeDue > 0.05)
+                {
+                    // IF REG Nickel if change due is >25
+
+                }
+                else if (RegisterContains("Penny") && changeDue > 0.01)
+                {
+                    // IF REG Penny if change due is >25
+
+                }
+                else
+                {
+                    Console.WriteLine("MOM WE BROKE THE INTERNENT AGAIN!!!");
+                }
+            }
+
+            return OOTFP; // Into the fire
+        }
+
+        public bool MakeTransaction(List<Coin> coins)
+        {
+
+            foreach (Coin coin in coins) // Coins in hand
+            {
+                register.Add(coin);
+                validPayment = true;
+            }
+
+            return validPayment;
+        }
+
         private void FillRegister(int quarters, int dimes, int nickles, int pennies) // Adds coins to the register
         {
             for (int i = 0; i < quarters; i++) { register.Add(new Quarter()); }
@@ -370,7 +370,6 @@ namespace SodaMachine
 
             return CoinsTotal;
         }
-
 
         private int[] CreateRegisterCoainage()
         {   /// Creates an array of the number of individual coins

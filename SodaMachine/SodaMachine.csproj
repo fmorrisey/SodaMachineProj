@@ -46,7 +46,6 @@
     <Compile Include="BackPack.cs" />
     <Compile Include="Can.cs" />
     <Compile Include="Card.cs" />
-    <Compile Include="Hand.cs" />
     <Compile Include="Coin.cs" />
     <Compile Include="Cola.cs" />
     <Compile Include="Customer.cs" />
