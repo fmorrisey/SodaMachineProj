@@ -71,7 +71,8 @@ namespace SodaMachine
                         }
                         else
                         {
-                            Console.WriteLine("Not Enough Money in the Machine");
+                            UserInterface.Pause("Machine Has Insufficient Change", 800);
+                            askAgain = true;
                         }
                         
                         break;
