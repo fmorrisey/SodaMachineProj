@@ -57,7 +57,6 @@ namespace SodaMachine
                         if (checkMachineREG == true)
                         {
                             validPayment = SelectPayment(payAmount);    // User Selects payment type then asked for payment
-                                                                       // After Card/Coin payment is correct //
                             
                             if (validPayment == true)
                             {
@@ -105,37 +104,55 @@ namespace SodaMachine
 
         }
         
-        public bool SelectPayment(double payAmount)
+        public bool SelectPayment(double AmountDue)
         {
             int paymentSelection = 0;
             bool askAgain = true;
+            bool checkChange = false;
+            bool shortChange = false;
+
+
             do
             {
+
+                customer.UISelectPaymentType(AmountDue);
                 paymentSelection = UserInterface.IntInputValidation("Select your payment type: ");
                 switch (paymentSelection)
                 {
                     case 1: /*WALLET*/
-                        ; askAgain = false;
-                        if (customer.wallet.CheckCoins(payAmount) == false)  // Check Funds before payment request
+                        if (customer.wallet.CheckCoins(AmountDue) == false)  // Check Funds before payment request
                         {
                             Console.WriteLine("Insufficient Funds");
                             askAgain = true;
                         }
                         else
                         {                                           // Select coins and pay
-                            customer.wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
-                            customer.wallet.CheckCoins(payAmount);           // User inserts their coins
-                            handsTransfer = customer.wallet.TransferCoins(payAmount);
-                            customer.wallet.WalletContains(handsTransfer);
-                            handsTransfer = sodaMachine.MakeTransaction(handsTransfer);
-                            customer.paymentMade = true;
-                            customer.wallet.ChangeReturn(handsTransfer);                           
-                            askAgain = false;                       // in the customer's possession
+                            checkChange = customer.wallet.CheckCoins(AmountDue);           // User inserts their coins
+                            if (checkChange == true)
+                            {
+                                customer.wallet.UICoinPayment(AmountDue);        // Displays dynamic payment selection
+                                handsTransfer = customer.wallet.TransferCoins(AmountDue);
+                                shortChange = ShortChange(AmountDue);
+                                if (shortChange == false)
+                                {
+                                    customer.wallet.WalletContains(handsTransfer);
+                                    handsTransfer = sodaMachine.MakeTransaction(handsTransfer);
+                                    customer.paymentMade = true;
+                                    customer.wallet.ChangeReturn(handsTransfer);
+                                    askAgain = false;
+                                } else 
+                                {
+                                    UserInterface.Pause("Not Enough Change", 800);
+                                    askAgain = true; 
+                                }
+                            }
+                            else { askAgain = true; }
                         }
                         break;
+
                     case 2: /*CARD*/
                         ;
-                        if (customer.card.SwipeCard(payAmount) == false)
+                        if (customer.card.SwipeCard(AmountDue) == false)
                         {   // Does not swipe card
                             Console.WriteLine("Insufficient Funds");
                             askAgain = true;
@@ -148,10 +165,9 @@ namespace SodaMachine
                         }
 
                         break;
-                    case 3: /*Exit*/
-                        ; askAgain = false;
 
-                        break;
+                    case 3: askAgain = false; break;
+
                     default:
                         Console.WriteLine("Incorrect Payment option");
                         askAgain = true; break;
@@ -159,6 +175,35 @@ namespace SodaMachine
             } while (askAgain == true);
 
             return customer.paymentMade;
+        }
+
+        public bool ShortChange(double amountDue)
+        {
+            double paymentAmount = paymentAmountCheck();
+
+            if (amountDue <= paymentAmount)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+            return true;
+
+        }
+
+        public double paymentAmountCheck()
+        {
+            double CoinsTotal = 0.0;
+
+            for (int i = 0; i < handsTransfer.Count; i++)
+            {
+                CoinsTotal += handsTransfer[i].Value;
+            }
+            CoinsTotal = Math.Round(CoinsTotal, 2);
+            return CoinsTotal;
         }
 
     }

@@ -116,7 +116,7 @@ namespace SodaMachine
                             paymentAmount = 0.35d; askAgain = false;
                         } break;
 
-                    case 4: /* Exit */; break;
+                    //case 4: /* Exit */; break;
 
                     default:
                         Console.WriteLine("MOM I BROKE THE UNIVERSE AGAIN!");

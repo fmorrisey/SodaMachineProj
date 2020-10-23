@@ -150,6 +150,8 @@ namespace SodaMachine
 
         }
 
+        
+
         public void WalletContains(List<Coin> coinsInHand)
         {
             string coinName = "";
