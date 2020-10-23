@@ -89,7 +89,7 @@ namespace SodaMachine
                               $"Total of ${displayCoin} in hand");
         }
 
-        public int[] TransferCoins(double paymentAmount)
+        public List<Coin> TransferCoins(double paymentAmount)
         {
             double coinSelection = 0;
             coinSelectionTotal = 0;
@@ -151,7 +151,7 @@ namespace SodaMachine
 
             } while (finishedSelection != true); //ask again until user is finished
                 
-            return transferCoins;
+            return hands;
 
         }
 

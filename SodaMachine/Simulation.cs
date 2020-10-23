@@ -18,6 +18,8 @@ namespace SodaMachine
         public Customer customer;
         private bool validPayment;
 
+        public List<Coin> handsTransfer;
+
         public int[] HoldTransfer;
 
         // Ctor
@@ -26,6 +28,7 @@ namespace SodaMachine
             sodaMachine = new SodaMachine(); // SodaMachine Object exists here.
             customer = new Customer(); // Customer object, with it's wallet, coins, card, and backpack exists here.
             SelectMainMenu();
+            handsTransfer = new List<Coin>();
             HoldTransfer = new int[4]; //Transfer Array to pass coins between the customer and the machine
         }
         // Member Methods
@@ -36,6 +39,7 @@ namespace SodaMachine
             double payAmount = 0.00d;
             int paymentSelection = 0;
             string transferCan;
+            bool checkMachineREG;
 
             do
             {
@@ -48,18 +52,26 @@ namespace SodaMachine
                         UserInterface.Clear();
                         payAmount = sodaMachine.UISodaSelection();  // Loads selection UI returns payment value
                         customer.UISelectPaymentType(payAmount);    // Asks for payment type with dynamic payment value
-                        validPayment = SelectPayment(payAmount);    // User Selects payment type then asked for payment
+                        checkMachineREG = sodaMachine.CheckRegister(payAmount);
                         
-                        // After Card/Coin payment is correct //
-                        transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
-                        customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
-                        
-                        sodaMachine.UpdateRegisterCoinage(validPayment);      // Updates the SodaMachine
-                        sodaMachine.UpdateSodaInventory();
-                        
-                        customer.wallet.UpdateCoinageInventory(validPayment); // After payment Updates the coins available 
+                        if (checkMachineREG == true)
+                        {
+                            validPayment = SelectPayment(payAmount);    // User Selects payment type then asked for payment
+                                                                        // After Card/Coin payment is correct //
+                            transferCan = sodaMachine.DispenseSoda(validPayment); // Authorizes can dispensing
+                            customer.backPack.AddSodaToBackPack(transferCan);     // Soda is added to the bag
 
-                        askAgain = true;
+                            sodaMachine.UpdateRegisterCoinage(validPayment);      // Updates the SodaMachine
+                            sodaMachine.UpdateSodaInventory();
+
+                            customer.wallet.UpdateCoinageInventory(validPayment); // After payment Updates the coins available 
+                            askAgain = false;
+                        }
+                        else
+                        {
+                            askAgain = true;
+                        }
+                        
                         break;
 
                     case 2: /* CHECK WALLET FUNDS */
@@ -109,8 +121,8 @@ namespace SodaMachine
                         {                                           // Select coins and pay
                             customer.wallet.UICoinPayment(payAmount);        // Displays dynamic payment selection
                             customer.wallet.CheckCoins(payAmount);           // User inserts their coins
-                            HoldTransfer = customer.wallet.TransferCoins(payAmount);
-                            customer.paymentMade = sodaMachine.MakeTransaction(HoldTransfer);
+                            handsTransfer = customer.wallet.TransferCoins(payAmount);
+                            customer.paymentMade = sodaMachine.MakeTransaction(handsTransfer);
                             
                             
                             askAgain = false;                       // in the customer's possession
